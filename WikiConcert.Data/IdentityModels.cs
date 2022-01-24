@@ -36,12 +36,11 @@ namespace WikiConcert.Data
             return new ApplicationDbContext();
         }
 
-        //public DbSet<Band> Bands { get; set; }
- ConcertObjectAdded
+        public DbSet<Band> Bands { get; set; }
+
         public DbSet<Concert> Concerts { get; set; }
 
         //public DbSet<Concert> Concerts { get; set; }
- develop
         // public DbSet<Song> Songs { get; set; }
         //public DbSet<Venue> Venues { get; set; }
         // public DbSet<Setlist> Setlists { get; set; }

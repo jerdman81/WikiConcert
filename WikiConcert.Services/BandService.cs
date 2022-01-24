@@ -33,17 +33,22 @@ namespace WikiConcert.Services
                 return ctx.SaveChanges() == 1;
             }
         }
-        /*
+        
         public IEnumerable<BandListItem> GetAllBands()
         {
             using (var ctx = new ApplicationDbContext())
             {
                 var query = ctx.Bands.Select(b => new BandListItem
                 {
+                    Name = b.Name,
+                    Genre = b.Genre,
+                    IsActive = b.Active,
+                    Created = b.Created_At
+                });
 
-                })
-            }
+                return query.ToList();
+            };
         }
-        */
+        
     }
 }
