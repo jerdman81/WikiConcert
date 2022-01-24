@@ -311,7 +311,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WikiConcert.Data\WikiConcert.Data.csproj">
-      <Project>{01FAFFD4-3D44-48CC-AE2B-01C3524F353A}</Project>
+      <Project>{01faffd4-3d44-48cc-ae2b-01c3524f353a}</Project>
       <Name>WikiConcert.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\WikiConcert.Models\WikiConcert.Models.csproj">
