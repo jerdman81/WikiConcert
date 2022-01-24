@@ -94,6 +94,12 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WikiConcert.Models\WikiConcert.Models.csproj">
+      <Project>{024A9C97-E139-49C7-84E7-DFD46D3EF6EC}</Project>
+      <Name>WikiConcert.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
