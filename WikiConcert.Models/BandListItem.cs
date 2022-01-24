@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace WikiConcert.Models
 {
-    internal class BandListItem
+    public class BandListItem
     {
+        public int BandId { get; set; }
+        public string Name { get; set; }
+        public string Genre { get; set; }
+        public bool IsActive { get; set; }
+        public DateTimeOffset Created { get; set; }
     }
 }
