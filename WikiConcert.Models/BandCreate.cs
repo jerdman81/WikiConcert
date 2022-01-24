@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace WikiConcert.Models
 {
-    internal class BandCreate
+    public class BandCreate
     {
+        public string Name { get; set; }
+        public string Genre { get; set; }
+        public bool IsActive { get; set; }
     }
 }
