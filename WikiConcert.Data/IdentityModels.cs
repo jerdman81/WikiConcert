@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using WikiConcert.Models;
 
 namespace WikiConcert.Data
 {
@@ -36,7 +37,11 @@ namespace WikiConcert.Data
         }
 
         //public DbSet<Band> Bands { get; set; }
+ ConcertObjectAdded
+        public DbSet<Concert> Concerts { get; set; }
+
         //public DbSet<Concert> Concerts { get; set; }
+ develop
         // public DbSet<Song> Songs { get; set; }
         //public DbSet<Venue> Venues { get; set; }
         // public DbSet<Setlist> Setlists { get; set; }
