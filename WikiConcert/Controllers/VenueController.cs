@@ -40,6 +40,11 @@ namespace WikiConcert.Controllers
             return Ok(venues);
         }
 
-        
+        public IHttpActionResult Get(int id)
+        {
+            VenueService venueService = CreateVenueService();
+            var venue = venueService.GetVenueByID(id);
+            return Ok(venue);
+        }
     }
 }
