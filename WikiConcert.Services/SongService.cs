@@ -84,6 +84,20 @@ namespace WikiConcert.Services
                 return query.ToList();
             }
         }
+        public IEnumerable<SongListItem> GetSongByArtist(string name)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query = ctx.Songs.Where(s => s.Artist == name).Select(s => new SongListItem
+                {
+                    SongId = s.SongId,
+                    Name = s.Name,
+                    Artist = s.Artist,                    
+                });
+
+                return query.ToList();
+            }
+        }
 
         public bool UpdateSong(SongUpdate model)
         {
