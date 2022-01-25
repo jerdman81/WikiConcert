@@ -174,5 +174,28 @@ namespace WikiConcert.Services
                 return query.ToList();
             }
         }
+
+        // Venue Read by City
+        public IEnumerable<VenueDetail> GetVenuesByCity(string city)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query =
+                ctx
+                    .Venues
+                    .Where(v => v.City == city)
+                    .Select(v => new VenueDetail
+                    {
+                        VenueName = v.Name,
+                        VenueAddress = v.Address,
+                        VenueCity = v.City,
+                        VenueState = v.State,
+                        VenueCapacity = v.Capacity,
+                        VenueAltName = v.AltName,
+                        VenueOperatingStatus = v.IsOperating
+                    });
+                return query.ToList();
+            }
+        }
     }
 }
