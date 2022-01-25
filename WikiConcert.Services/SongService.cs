@@ -101,6 +101,23 @@ namespace WikiConcert.Services
             }
         }
 
+        public IEnumerable<SongLyricItem> GetSongByLyric(string lyric)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query = ctx.Songs.Where(s => s.Lyrics.Contains(lyric)).Select(s => new SongLyricItem
+                {
+                    SongId = s.SongId,
+                    Name = s.Name,
+                    Artist = s.Artist,
+                    ReleaseDate = s.ReleaseDate,
+                    Lyrics = s.Lyrics
+                });
+
+                return query.ToList();
+            }
+        }
+
         public bool UpdateSong(SongUpdate model)
         {
             using (var ctx = new ApplicationDbContext())
