@@ -66,6 +66,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SongCreate.cs" />
     <Compile Include="SongDetail.cs" />
+    <Compile Include="SongLyricItem.cs" />
     <Compile Include="SongListItem.cs" />
     <Compile Include="SongUpdate.cs" />
     <Compile Include="VenueCreate.cs" />
