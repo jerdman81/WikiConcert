@@ -67,6 +67,7 @@
     <Compile Include="SongCreate.cs" />
     <Compile Include="SongDetail.cs" />
     <Compile Include="SongListItem.cs" />
+    <Compile Include="SongUpdate.cs" />
     <Compile Include="VenueCreate.cs" />
     <Compile Include="VenueDetail.cs" />
     <Compile Include="VenueEdit.cs" />
