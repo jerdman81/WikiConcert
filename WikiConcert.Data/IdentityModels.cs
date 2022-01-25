@@ -41,7 +41,7 @@ namespace WikiConcert.Data
         public DbSet<Concert> Concerts { get; set; }
 
         //public DbSet<Concert> Concerts { get; set; }
-        // public DbSet<Song> Songs { get; set; }
+        public DbSet<Song> Songs { get; set; }
         public DbSet<Venue> Venues { get; set; }
         // public DbSet<Setlist> Setlists { get; set; }
         // public DbSet<Attendance> Attendance { get; set; }
