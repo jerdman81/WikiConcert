@@ -49,6 +49,21 @@ namespace WikiConcert.Services
                 return query.ToList();
             };
         }
+
+        public bool UpdateBand(BandUpdate model)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity = ctx.Bands.Single(b => b.BandId == model.BandId);
+
+                entity.Name = model.Name;
+                entity.Genre = model.Genre;
+                entity.Active = model.IsActive;
+                entity.Modified_At = model.Modified;
+
+                return ctx.SaveChanges() == 1;
+            }
+        }
         
     }
 }
