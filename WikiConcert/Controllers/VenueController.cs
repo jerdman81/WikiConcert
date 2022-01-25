@@ -33,6 +33,13 @@ namespace WikiConcert.Controllers
             return Ok();
         }
 
+        public IHttpActionResult Get()
+        {
+            VenueService venueService = CreateVenueService();
+            var venues = venueService.GetVenues();
+            return Ok(venues);
+        }
+
         
     }
 }
