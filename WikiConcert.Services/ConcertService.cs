@@ -10,11 +10,11 @@ namespace WikiConcert.Services
 {
     public class ConcertService
     {
-        private readonly Guid userId;
+        private readonly Guid _userId;
 
         public ConcertService(Guid userId)
         {
-            userId = userId;
+            _userId = userId;
         }
 
         public bool CreateConcert(ConcertCreate model)
@@ -41,7 +41,7 @@ namespace WikiConcert.Services
             using(var ctx = new ApplicationDbContext())
             {
                 var query =
-                    ctx
+                ctx
                     .Concerts
                     .Select(
                         e =>
@@ -63,10 +63,76 @@ namespace WikiConcert.Services
         {
             using(var ctx = new ApplicationDbContext())
             {
-                var entity = 
-                    ctx
+                var entity =
+                ctx
                     .Concerts
                     .Single(e => e.ConcertId == id);
+                return
+                    new ConcertDetail
+                    {
+                        ConcertId = entity.ConcertId,
+                        BandId = entity.BandId,
+                        ConcertDate = entity.ConcertDate,
+                        VenueId = entity.VenueId,
+                        SetlistId = entity.SetlistId,
+                        CreatedUtc = entity.CreatedUtc,
+                        ModifiedUtc = entity.ModifiedUtc
+                    };
+
+            }
+        }
+        public ConcertDetail GetConcertByVenueId(int id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx
+                    .Concerts
+                    .Single(e => e.VenueId == id);
+                return
+                    new ConcertDetail
+                    {
+                        ConcertId = entity.ConcertId,
+                        BandId = entity.BandId,
+                        ConcertDate = entity.ConcertDate,
+                        VenueId = entity.VenueId,
+                        SetlistId = entity.SetlistId,
+                        CreatedUtc = entity.CreatedUtc,
+                        ModifiedUtc = entity.ModifiedUtc
+                    };
+
+            }
+        }
+        public ConcertDetail GetConcertByBandId(int id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx
+                    .Concerts
+                    .Single(e => e.BandId == id);
+                return
+                    new ConcertDetail
+                    {
+                        ConcertId = entity.ConcertId,
+                        BandId = entity.BandId,
+                        ConcertDate = entity.ConcertDate,
+                        VenueId = entity.VenueId,
+                        SetlistId = entity.SetlistId,
+                        CreatedUtc = entity.CreatedUtc,
+                        ModifiedUtc = entity.ModifiedUtc
+                    };
+
+            }
+        }
+        public ConcertDetail GetConcertByDate(DateTime ConcertDate)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx
+                    .Concerts
+                    .Single(e => e.ConcertDate == ConcertDate);
                 return
                     new ConcertDetail
                     {
