@@ -20,6 +20,7 @@ namespace WikiConcert.Controllers
             return venueService;
         }
 
+        [HttpPost]
         public IHttpActionResult Post(VenueCreate venue)
         {
             if (!ModelState.IsValid)
@@ -33,6 +34,7 @@ namespace WikiConcert.Controllers
             return Ok();
         }
 
+        [HttpGet]
         public IHttpActionResult Get()
         {
             VenueService venueService = CreateVenueService();
@@ -40,6 +42,7 @@ namespace WikiConcert.Controllers
             return Ok(venues);
         }
 
+        [HttpGet]
         public IHttpActionResult Get(int id)
         {
             VenueService venueService = CreateVenueService();
@@ -47,6 +50,7 @@ namespace WikiConcert.Controllers
             return Ok(venue);
         }
 
+        [HttpPut]
         public IHttpActionResult Put(VenueEdit venue)
         {
             if (!ModelState.IsValid)
@@ -60,6 +64,7 @@ namespace WikiConcert.Controllers
             return Ok();
         }
 
+        [HttpDelete]
         public IHttpActionResult Delete(int id)
         {
             var service = CreateVenueService();
@@ -68,6 +73,62 @@ namespace WikiConcert.Controllers
                 return InternalServerError();
 
             return Ok();
+        }
+
+        [HttpGet, ActionName("isActive")]
+        public IHttpActionResult GetOperationalVenues()
+        {
+            VenueService venueService = CreateVenueService();
+            var venue = venueService.GetVenuesByOperatingStatus(true);
+            return Ok(venue);
+        }
+
+        [HttpGet, ActionName("notActive")]
+        public IHttpActionResult GetNonOperationalVenues()
+        {
+            VenueService venueService = CreateVenueService();
+            var venue = venueService.GetVenuesByOperatingStatus(false);
+            return Ok(venue);
+        }
+
+        [HttpGet, ActionName("State")]
+        public IHttpActionResult GetByState(string state)
+        {
+            VenueService venueService = CreateVenueService();
+            var venue = venueService.GetVenuesByState(state);
+            return Ok(venue);
+        }
+
+        [HttpGet, ActionName("City")]
+        public IHttpActionResult GetByCity(string city)
+        {
+            VenueService venueService = CreateVenueService();
+            var venue = venueService.GetVenuesByCity(city);
+            return Ok(venue);
+        }
+
+        [HttpGet, ActionName("CapacityGreater")]
+        public IHttpActionResult GetByCapacityGreaterThan(int capacity, char oper)
+        {
+            VenueService venueService = CreateVenueService();
+            var venue = venueService.GetVenuesByCapacity(capacity, 'g');
+            return Ok(venue);
+        }
+
+        [HttpGet, ActionName("CapacityLess")]
+        public IHttpActionResult GetByCapacityLessThan(int capacity, char oper)
+        {
+            VenueService venueService = CreateVenueService();
+            var venue = venueService.GetVenuesByCapacity(capacity, 'l');
+            return Ok(venue);
+        }
+
+        [HttpGet, ActionName("CapacityEqual")]
+        public IHttpActionResult GetByCapacityEqualTo(int capacity, char oper)
+        {
+            VenueService venueService = CreateVenueService();
+            var venue = venueService.GetVenuesByCapacity(capacity, 'e');
+            return Ok(venue);
         }
     }
 }
