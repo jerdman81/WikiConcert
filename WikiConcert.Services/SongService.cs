@@ -68,5 +68,21 @@ namespace WikiConcert.Services
                 };
             }
         }
+
+        public bool UpdateSong(SongUpdate model)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity = ctx.Songs.Single(s => s.SongId == model.SongId);
+
+                entity.Name = model.Name;
+                entity.Artist = model.Artist;
+                entity.ReleaseDate = model.ReleaseDate;
+                entity.Lyrics = model.Lyrics;
+                entity.Modified_At = DateTimeOffset.Now;
+
+                return ctx.SaveChanges() == 1;
+            }
+        }
     }
 }
