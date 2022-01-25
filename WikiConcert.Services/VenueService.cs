@@ -128,5 +128,28 @@ namespace WikiConcert.Services
                 return ctx.SaveChanges() == 1;
             }
         }
+
+        // Venue Read by Operating Status
+        public IEnumerable<VenueDetail> GetVenuesByOperatingStatus(bool operatingStatus)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query =
+                ctx
+                    .Venues
+                    .Where(v => v.IsOperating == operatingStatus)
+                    .Select(v => new VenueDetail
+                    {
+                        VenueName = v.Name,
+                        VenueAddress = v.Address,
+                        VenueCity = v.City,
+                        VenueState = v.State,
+                        VenueCapacity = v.Capacity,
+                        VenueAltName = v.AltName,
+                        VenueOperatingStatus = v.IsOperating
+            });
+                return query.ToList();
+            }
+        }
     }
 }
