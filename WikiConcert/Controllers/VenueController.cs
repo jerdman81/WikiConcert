@@ -59,5 +59,15 @@ namespace WikiConcert.Controllers
 
             return Ok();
         }
+
+        public IHttpActionResult Delete(int id)
+        {
+            var service = CreateVenueService();
+
+            if (!service.DeleteVenue(id))
+                return InternalServerError();
+
+            return Ok();
+        }
     }
 }
