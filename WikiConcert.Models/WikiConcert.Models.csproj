@@ -57,6 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BandCreate.cs" />
+    <Compile Include="BandListItem.cs" />
+    <Compile Include="BandUpdate.cs" />
     <Compile Include="Concert.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
