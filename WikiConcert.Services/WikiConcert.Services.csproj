@@ -57,7 +57,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BandService.cs" />
+    <Compile Include="ConcertService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VenueService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -10,6 +10,7 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using WikiConcert.Providers;
 using WikiConcert.Models;
+using WikiConcert.Data;
 
 namespace WikiConcert
 {
