@@ -197,5 +197,69 @@ namespace WikiConcert.Services
                 return query.ToList();
             }
         }
+
+        // Venue Read by Capacity
+        public IEnumerable<VenueDetail> GetVenuesByCapacity(int capacity, char oper)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                if (oper == 'g')
+                {
+                    var query =
+                    ctx
+                        .Venues
+                        .Where(v => v.Capacity >= capacity)
+                        .Select(v => new VenueDetail
+                        {
+                            VenueName = v.Name,
+                            VenueAddress = v.Address,
+                            VenueCity = v.City,
+                            VenueState = v.State,
+                            VenueCapacity = v.Capacity,
+                            VenueAltName = v.AltName,
+                            VenueOperatingStatus = v.IsOperating
+                        });
+                    return query.ToList();
+                }
+                else if (oper == 'l')
+                {
+                    var query =
+                   ctx
+                       .Venues
+                       .Where(v => v.Capacity <= capacity)
+                       .Select(v => new VenueDetail
+                       {
+                           VenueName = v.Name,
+                           VenueAddress = v.Address,
+                           VenueCity = v.City,
+                           VenueState = v.State,
+                           VenueCapacity = v.Capacity,
+                           VenueAltName = v.AltName,
+                           VenueOperatingStatus = v.IsOperating
+                       });
+                    return query.ToList();
+                }
+                else if (oper == 'e')
+                {
+                    var query =
+                   ctx
+                       .Venues
+                       .Where(v => v.Capacity == capacity)
+                       .Select(v => new VenueDetail
+                       {
+                           VenueName = v.Name,
+                           VenueAddress = v.Address,
+                           VenueCity = v.City,
+                           VenueState = v.State,
+                           VenueCapacity = v.Capacity,
+                           VenueAltName = v.AltName,
+                           VenueOperatingStatus = v.IsOperating
+                       });
+                    return query.ToList();
+                }
+                else return null;
+                
+            }
+        }
     }
 }
