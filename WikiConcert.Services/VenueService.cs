@@ -112,5 +112,21 @@ namespace WikiConcert.Services
                 return ctx.SaveChanges() == 1;
             }
         }
+
+        // Venue Delete
+        public bool DeleteVenue(int venueId)
+        {
+            using(var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx
+                        .Venues
+                        .Single(v => v.VenueId == venueId);
+
+                ctx.Venues.Remove(entity);
+
+                return ctx.SaveChanges() == 1;
+            }
+        }
     }
 }
