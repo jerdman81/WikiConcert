@@ -50,6 +50,22 @@ namespace WikiConcert.Services
             };
         }
 
+        public BandListItem GetBandById(int bandId)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query = ctx.Bands.Single(b => b.BandId == bandId);
+                return new BandListItem
+                {
+                    BandId = query.BandId,
+                    Name = query.Name,
+                    Genre = query.Genre,
+                    IsActive = query.Active,
+                    Created = query.Created_At
+                };
+            }
+        }
+
         public IEnumerable<BandListItem> GetBandByName(string name)
         {
             using (var ctx = new ApplicationDbContext())
