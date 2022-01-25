@@ -59,14 +59,11 @@
   <ItemGroup>
     <Compile Include="BandCreate.cs" />
     <Compile Include="BandListItem.cs" />
- Elis4444/Ticket4/ConcertAdded
     <Compile Include="ConcertCreate.cs" />
     <Compile Include="ConcertDetail.cs" />
     <Compile Include="ConcertEdit.cs" />
-
     <Compile Include="BandUpdate.cs" />
     <Compile Include="Concert.cs" />
- develop
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VenueCreate.cs" />
     <Compile Include="VenueDetail.cs" />

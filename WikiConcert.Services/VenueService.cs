@@ -90,5 +90,27 @@ namespace WikiConcert.Services
                     };
             }
         }
+
+        // Venue Update
+        public bool EditVenue(VenueEdit model)
+        {
+            using(var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx
+                        .Venues
+                        .Single(v => v.VenueId == model.VenueId);
+
+                entity.Name = model.VenueName;
+                entity.Address = model.VenueAddress;
+                entity.City = model.VenueCity;
+                entity.State = model.VenueState;
+                entity.Capacity = model.VenueCapacity;
+                entity.AltName = model.VenueAltName;
+                entity.IsOperating = model.VenueOperatingStatus;
+
+                return ctx.SaveChanges() == 1;
+            }
+        }
     }
 }
