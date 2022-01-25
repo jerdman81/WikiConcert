@@ -127,7 +127,7 @@ namespace WikiConcert.Services
                 entity.Name = model.Name;
                 entity.Genre = model.Genre;
                 entity.Active = model.IsActive;
-                entity.Modified_At = model.Modified;
+                entity.Modified_At = DateTimeOffset.Now;
 
                 return ctx.SaveChanges() == 1;
             }
