@@ -64,6 +64,18 @@ namespace WikiConcert.Services
                 return ctx.SaveChanges() == 1;
             }
         }
+
+        public bool DeleteBand(int BandId)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity = ctx.Bands.Single(b => b.BandId == BandId);
+
+                ctx.Bands.Remove(entity);
+
+                return ctx.SaveChanges() == 1;
+            }
+        }
         
     }
 }
