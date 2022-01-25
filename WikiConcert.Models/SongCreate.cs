@@ -15,7 +15,7 @@ namespace WikiConcert.Models
         public string Artist { get; set; }
         [Required]
         public DateTimeOffset ReleaseDate { get; set; }
-        [Required]
+
         public string Lyrics { get; set; }
     }
 }
