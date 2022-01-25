@@ -40,6 +40,7 @@ namespace WikiConcert.Services
             {
                 var query = ctx.Bands.Select(b => new BandListItem
                 {
+                    BandId = b.BandId,
                     Name = b.Name,
                     Genre = b.Genre,
                     IsActive = b.Active,
@@ -47,7 +48,7 @@ namespace WikiConcert.Services
                 });
 
                 return query.ToList();
-            };
+            }
         }
 
         public BandListItem GetBandById(int bandId)

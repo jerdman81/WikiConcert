@@ -34,5 +34,39 @@ namespace WikiConcert.Services
                 return ctx.SaveChanges() == 1;
             }
         }
+
+        public IEnumerable<SongListItem> GetAllSongs()
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query = ctx.Songs.Select(s => new SongListItem
+                {
+                    SongId = s.SongId,
+                    Name = s.Name,
+                    Artist = s.Artist,
+                    ReleaseDate = s.ReleaseDate
+                });
+
+                return query.ToList();
+            }
+        }
+
+        public SongDetail GetSongById(int id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query = ctx.Songs.Single(s => s.SongId == id);
+                return new SongDetail
+                {
+                    SongId = query.SongId,
+                    Name = query.Name,
+                    Artist = query.Artist,
+                    ReleaseDate = query.ReleaseDate,
+                    Lyrics = query.Lyrics,
+                    Created = query.Created_At,
+                    Modified = query.Modified_At
+                };
+            }
+        }
     }
 }
