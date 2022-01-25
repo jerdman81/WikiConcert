@@ -88,6 +88,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Band.cs" />
+ Elis4444/Ticket4/ConcertAdded
+    <Compile Include="Concert.cs" />
+
+ develop
     <Compile Include="IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Venue.cs" />
