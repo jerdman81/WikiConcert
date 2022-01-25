@@ -84,7 +84,7 @@ namespace WikiConcert.Services
                 return query.ToList();
             }
         }
-        public IEnumerable<SongListItem> GetSongByArtist(string name)
+        /*public IEnumerable<SongListItem> GetSongByArtist(string name)
         {
             using (var ctx = new ApplicationDbContext())
             {
@@ -97,7 +97,7 @@ namespace WikiConcert.Services
 
                 return query.ToList();
             }
-        }
+        }*/
 
         public IEnumerable<SongListItem> GetSongByArtist(string artist)
         {
