@@ -1,0 +1,94 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using WikiConcert.Data;
+using WikiConcert.Models;
+
+namespace WikiConcert.Services
+{
+    public class VenueService
+    {
+        private readonly Guid _userId;
+
+        public VenueService(Guid userId)
+        {
+            _userId = userId;
+        }
+
+        public bool CreateVenue(VenueCreate model)
+        {
+            var entity =
+                new Venue()
+                {
+                    Name = model.VenueName,
+                    Address = model.VenueAddress,
+                    City = model.VenueCity,
+                    State = model.VenueState,
+                    Capacity = model.VenueCapacity,
+                    AltName = model.VenueAltName,
+                    IsOperating = model.VenueIsOperating
+                };
+
+            using (var ctx = new ApplicationDbContext())
+            {
+                ctx.Venues.Add(entity);
+                return ctx.SaveChanges() == 1;
+            }
+        }
+
+        // Get All Venues
+        public IEnumerable<VenueDetail> GetVenues()
+        {
+            using(var ctx = new ApplicationDbContext())
+            {
+                var query =
+                ctx
+                    .Venues
+                    .Select(
+                        e =>
+                            new VenueDetail
+                            {
+                                VenueId = e.VenueId,
+                                VenueName = e.Name,
+                                VenueAddress = e.Address,
+                                VenueCity = e.City,
+                                VenueState = e.State,
+                                VenueCapacity = e.Capacity,
+                                VenueAltName = e.AltName,
+                                VenueOperatingStatus = e.IsOperating,
+                                CreatedUtc = e.CreatedUtc,
+                                ModifiedUtc = e.ModifiedUtc
+                            });
+                return query.ToArray();
+            }
+        }
+
+        // Get Venue By ID
+        public VenueDetail GetVenueByID(int id)
+        {
+            using(var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx
+                        .Venues
+                        .Single(e => e.VenueId == id);
+                return
+                    new VenueDetail
+                    {
+                        VenueId = entity.VenueId,
+                        VenueName = entity.Name,
+                        VenueAddress = entity.Address,
+                        VenueCity = entity.City,
+                        VenueState = entity.State,
+                        VenueCapacity = entity.Capacity,
+                        VenueAltName = entity.AltName,
+                        VenueOperatingStatus = entity.IsOperating,
+                        CreatedUtc = entity.CreatedUtc,
+                        ModifiedUtc = entity.ModifiedUtc
+                    };
+            }
+        }
+    }
+}
