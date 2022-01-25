@@ -64,6 +64,7 @@
     <Compile Include="ConcertEdit.cs" />
     <Compile Include="BandUpdate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SongCreate.cs" />
     <Compile Include="VenueCreate.cs" />
     <Compile Include="VenueDetail.cs" />
     <Compile Include="VenueEdit.cs" />

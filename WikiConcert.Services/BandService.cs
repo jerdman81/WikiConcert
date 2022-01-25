@@ -19,7 +19,7 @@ namespace WikiConcert.Services
 
         public bool CreateBand(BandCreate model)
         {
-            var entity = new Band()
+            var entity = new Band
             {
                 Name = model.Name,
                 Genre = model.Genre,
