@@ -323,14 +323,6 @@
     <Content Include="Scripts\jquery-3.6.0.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WikiConcert.Data\WikiConcert.Data.csproj">
-      <Project>{01faffd4-3d44-48cc-ae2b-01c3524f353a}</Project>
-      <Name>WikiConcert.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WikiConcert.Models\WikiConcert.Models.csproj">
-      <Project>{024a9c97-e139-49c7-84e7-dfd46d3ef6ec}</Project>
-      <Name>WikiConcert.Models</Name>
-    </ProjectReference>
     <ProjectReference Include="..\WikiConcert.Services\WikiConcert.Services.csproj">
       <Project>{8e96e026-61a9-4bb8-973f-c1c36890521d}</Project>
       <Name>WikiConcert.Services</Name>
