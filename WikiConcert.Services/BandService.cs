@@ -84,6 +84,23 @@ namespace WikiConcert.Services
             }
         }
 
+        public IEnumerable<BandListItem> GetBandByActive(bool isActive)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query = ctx.Bands.Where(b => b.Active == isActive).Select(b => new BandListItem
+                {
+                    BandId = b.BandId,
+                    Name = b.Name,
+                    Genre = b.Genre,
+                    IsActive = b.Active,
+                    Created = b.Created_At
+                });
+
+                return query.ToList();
+            }
+        }
+
         public bool UpdateBand(BandUpdate model)
         {
             using (var ctx = new ApplicationDbContext())
