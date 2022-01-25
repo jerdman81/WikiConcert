@@ -46,5 +46,18 @@ namespace WikiConcert.Controllers
             var venue = venueService.GetVenueByID(id);
             return Ok(venue);
         }
+
+        public IHttpActionResult Put(VenueEdit venue)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var service = CreateVenueService();
+
+            if (!service.EditVenue(venue))
+                return InternalServerError();
+
+            return Ok();
+        }
     }
 }
