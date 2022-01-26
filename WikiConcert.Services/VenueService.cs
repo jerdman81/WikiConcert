@@ -26,9 +26,11 @@ namespace WikiConcert.Services
                     Address = model.VenueAddress,
                     City = model.VenueCity,
                     State = model.VenueState,
+                    ZipCode = model.VenueZipCode,
                     Capacity = model.VenueCapacity,
                     AltName = model.VenueAltName,
-                    IsOperating = model.VenueIsOperating
+                    IsOperating = model.VenueIsOperating,
+                    CreatedUtc = DateTimeOffset.UtcNow
                 };
 
             using (var ctx = new ApplicationDbContext())
@@ -55,6 +57,7 @@ namespace WikiConcert.Services
                                 VenueAddress = e.Address,
                                 VenueCity = e.City,
                                 VenueState = e.State,
+                                VenueZipCode = e.ZipCode,
                                 VenueCapacity = e.Capacity,
                                 VenueAltName = e.AltName,
                                 VenueOperatingStatus = e.IsOperating,
@@ -82,6 +85,7 @@ namespace WikiConcert.Services
                         VenueAddress = entity.Address,
                         VenueCity = entity.City,
                         VenueState = entity.State,
+                        VenueZipCode = entity.ZipCode,
                         VenueCapacity = entity.Capacity,
                         VenueAltName = entity.AltName,
                         VenueOperatingStatus = entity.IsOperating,
@@ -105,9 +109,11 @@ namespace WikiConcert.Services
                 entity.Address = model.VenueAddress;
                 entity.City = model.VenueCity;
                 entity.State = model.VenueState;
+                entity.ZipCode = model.VenueZipCode;
                 entity.Capacity = model.VenueCapacity;
                 entity.AltName = model.VenueAltName;
                 entity.IsOperating = model.VenueOperatingStatus;
+                entity.ModifiedUtc = DateTimeOffset.UtcNow;
 
                 return ctx.SaveChanges() == 1;
             }
@@ -144,6 +150,7 @@ namespace WikiConcert.Services
                         VenueAddress = v.Address,
                         VenueCity = v.City,
                         VenueState = v.State,
+                        VenueZipCode = v.ZipCode,
                         VenueCapacity = v.Capacity,
                         VenueAltName = v.AltName,
                         VenueOperatingStatus = v.IsOperating
@@ -167,6 +174,7 @@ namespace WikiConcert.Services
                         VenueAddress = v.Address,
                         VenueCity = v.City,
                         VenueState = v.State,
+                        VenueZipCode = v.ZipCode,
                         VenueCapacity = v.Capacity,
                         VenueAltName = v.AltName,
                         VenueOperatingStatus = v.IsOperating
@@ -190,6 +198,7 @@ namespace WikiConcert.Services
                         VenueAddress = v.Address,
                         VenueCity = v.City,
                         VenueState = v.State,
+                        VenueZipCode= v.ZipCode,
                         VenueCapacity = v.Capacity,
                         VenueAltName = v.AltName,
                         VenueOperatingStatus = v.IsOperating
@@ -215,6 +224,7 @@ namespace WikiConcert.Services
                             VenueAddress = v.Address,
                             VenueCity = v.City,
                             VenueState = v.State,
+                            VenueZipCode = v.ZipCode,
                             VenueCapacity = v.Capacity,
                             VenueAltName = v.AltName,
                             VenueOperatingStatus = v.IsOperating
@@ -233,6 +243,7 @@ namespace WikiConcert.Services
                            VenueAddress = v.Address,
                            VenueCity = v.City,
                            VenueState = v.State,
+                           VenueZipCode = v.ZipCode,
                            VenueCapacity = v.Capacity,
                            VenueAltName = v.AltName,
                            VenueOperatingStatus = v.IsOperating
@@ -251,6 +262,7 @@ namespace WikiConcert.Services
                            VenueAddress = v.Address,
                            VenueCity = v.City,
                            VenueState = v.State,
+                           VenueZipCode = v.ZipCode,
                            VenueCapacity = v.Capacity,
                            VenueAltName = v.AltName,
                            VenueOperatingStatus = v.IsOperating

@@ -94,6 +94,10 @@
     <Compile Include="Migrations\202201261608456_created additional tables.designer.cs">
       <DependentUpon>202201261608456_created additional tables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202201261840445_added zip code to venues table.cs" />
+    <Compile Include="Migrations\202201261840445_added zip code to venues table.designer.cs">
+      <DependentUpon>202201261840445_added zip code to venues table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setlist.cs" />
@@ -113,6 +117,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202201261608456_created additional tables.resx">
       <DependentUpon>202201261608456_created additional tables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202201261840445_added zip code to venues table.resx">
+      <DependentUpon>202201261840445_added zip code to venues table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
