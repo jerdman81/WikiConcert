@@ -108,7 +108,7 @@ namespace WikiConcert.Controllers
         }
 
         [HttpGet, ActionName("CapacityGreater")]
-        public IHttpActionResult GetByCapacityGreaterThan(int capacity, char oper)
+        public IHttpActionResult GetByCapacityGreaterThan(int capacity)
         {
             VenueService venueService = CreateVenueService();
             var venue = venueService.GetVenuesByCapacity(capacity, 'g');
@@ -116,7 +116,7 @@ namespace WikiConcert.Controllers
         }
 
         [HttpGet, ActionName("CapacityLess")]
-        public IHttpActionResult GetByCapacityLessThan(int capacity, char oper)
+        public IHttpActionResult GetByCapacityLessThan(int capacity)
         {
             VenueService venueService = CreateVenueService();
             var venue = venueService.GetVenuesByCapacity(capacity, 'l');
@@ -124,7 +124,7 @@ namespace WikiConcert.Controllers
         }
 
         [HttpGet, ActionName("CapacityEqual")]
-        public IHttpActionResult GetByCapacityEqualTo(int capacity, char oper)
+        public IHttpActionResult GetByCapacityEqualTo(int capacity)
         {
             VenueService venueService = CreateVenueService();
             var venue = venueService.GetVenuesByCapacity(capacity, 'e');

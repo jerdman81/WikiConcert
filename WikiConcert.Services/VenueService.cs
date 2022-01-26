@@ -154,7 +154,9 @@ namespace WikiConcert.Services
                         ZipCode = v.ZipCode,
                         Capacity = v.Capacity,
                         AltName = v.AltName,
-                        OperatingStatus = v.IsOperating
+                        OperatingStatus = v.IsOperating,
+                        CreatedUtc = v.CreatedUtc,
+                        ModifiedUtc = v.ModifiedUtc
             });
                 return query.ToList();
             }
@@ -179,7 +181,9 @@ namespace WikiConcert.Services
                         ZipCode = v.ZipCode,
                         Capacity = v.Capacity,
                         AltName = v.AltName,
-                        OperatingStatus = v.IsOperating
+                        OperatingStatus = v.IsOperating,
+                        CreatedUtc = v.CreatedUtc,
+                        ModifiedUtc = v.ModifiedUtc
                     });
                 return query.ToList();
             }
@@ -204,7 +208,9 @@ namespace WikiConcert.Services
                         ZipCode= v.ZipCode,
                         Capacity = v.Capacity,
                         AltName = v.AltName,
-                        OperatingStatus = v.IsOperating
+                        OperatingStatus = v.IsOperating,
+                        CreatedUtc = v.CreatedUtc,
+                        ModifiedUtc = v.ModifiedUtc
                     });
                 return query.ToList();
             }
@@ -231,7 +237,9 @@ namespace WikiConcert.Services
                             ZipCode = v.ZipCode,
                             Capacity = v.Capacity,
                             AltName = v.AltName,
-                            OperatingStatus = v.IsOperating
+                            OperatingStatus = v.IsOperating,
+                            CreatedUtc = v.CreatedUtc,
+                            ModifiedUtc = v.ModifiedUtc
                         });
                     return query.ToList();
                 }
@@ -251,7 +259,9 @@ namespace WikiConcert.Services
                            ZipCode = v.ZipCode,
                            Capacity = v.Capacity,
                            AltName = v.AltName,
-                           OperatingStatus = v.IsOperating
+                           OperatingStatus = v.IsOperating,
+                           CreatedUtc = v.CreatedUtc,
+                           ModifiedUtc = v.ModifiedUtc
                        });
                     return query.ToList();
                 }
@@ -271,7 +281,9 @@ namespace WikiConcert.Services
                            ZipCode = v.ZipCode,
                            Capacity = v.Capacity,
                            AltName = v.AltName,
-                           OperatingStatus = v.IsOperating
+                           OperatingStatus = v.IsOperating,
+                           CreatedUtc = v.CreatedUtc,
+                           ModifiedUtc = v.ModifiedUtc
                        });
                     return query.ToList();
                 }
