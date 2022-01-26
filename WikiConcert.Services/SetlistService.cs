@@ -88,5 +88,25 @@ namespace WikiConcert.Services
                 return ctx.SaveChanges() == 1;
             }
         }
+
+        public bool DeleteSetlist(int setlistId)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                Setlist entity;
+                try
+                {
+                    entity = ctx.Setlists.Single(s => s.SetlistId == setlistId);
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+
+                ctx.Setlists.Remove(entity);
+
+                return ctx.SaveChanges() == 1;
+            }
+        }
     }
 }
