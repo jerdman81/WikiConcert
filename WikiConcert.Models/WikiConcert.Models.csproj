@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BandCreate.cs" />
+    <Compile Include="BandDetail.cs" />
     <Compile Include="BandListItem.cs" />
     <Compile Include="ConcertCreate.cs" />
     <Compile Include="ConcertDetail.cs" />
