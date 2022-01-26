@@ -10,19 +10,19 @@ namespace WikiConcert.Models
     public class VenueCreate
     {
         [Required]
-        public string VenueName { get; set; }
+        public string Name { get; set; }
         [Required]
-        public string VenueAddress { get; set; }
+        public string Address { get; set; }
         [Required]
-        public string VenueCity { get; set; }
+        public string City { get; set; }
         [Required]
         [MaxLength(2, ErrorMessage ="Please enter the 2 character state abbreviation."), MinLength(2, ErrorMessage ="Please enter the 2 character state abbreviation.")]
-        public string VenueState { get; set; }
+        public string State { get; set; }
         [Required]
-        public int VenueZipCode { get; set; }
-        public int VenueCapacity { get; set; }
-        public string VenueAltName { get; set; }
+        public int ZipCode { get; set; }
+        public int Capacity { get; set; }
+        public string AltName { get; set; }
         [Required]
-        public bool VenueIsOperating { get; set; }
+        public bool IsOperating { get; set; }
     }
 }

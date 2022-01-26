@@ -9,13 +9,13 @@ namespace WikiConcert.Models
     public class VenueEdit
     {
         public int VenueId { get; set; }
-        public string VenueName { get; set; }
-        public string VenueAddress { get; set; }
-        public string VenueCity { get; set; }
-        public string VenueState { get; set; }
-        public int VenueZipCode { get; set; }
-        public int VenueCapacity { get; set; }
-        public string VenueAltName { get; set; }
-        public bool VenueOperatingStatus { get; set; }
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public int ZipCode { get; set; }
+        public int Capacity { get; set; }
+        public string AltName { get; set; }
+        public bool OperatingStatus { get; set; }
     }
 }

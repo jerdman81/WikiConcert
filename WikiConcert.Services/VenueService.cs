@@ -22,14 +22,14 @@ namespace WikiConcert.Services
             var entity =
                 new Venue()
                 {
-                    Name = model.VenueName,
-                    Address = model.VenueAddress,
-                    City = model.VenueCity,
-                    State = model.VenueState,
-                    ZipCode = model.VenueZipCode,
-                    Capacity = model.VenueCapacity,
-                    AltName = model.VenueAltName,
-                    IsOperating = model.VenueIsOperating,
+                    Name = model.Name,
+                    Address = model.Address,
+                    City = model.City,
+                    State = model.State,
+                    ZipCode = model.ZipCode,
+                    Capacity = model.Capacity,
+                    AltName = model.AltName,
+                    IsOperating = model.IsOperating,
                     CreatedUtc = DateTimeOffset.UtcNow
                 };
 
@@ -53,14 +53,14 @@ namespace WikiConcert.Services
                             new VenueDetail
                             {
                                 VenueId = e.VenueId,
-                                VenueName = e.Name,
-                                VenueAddress = e.Address,
-                                VenueCity = e.City,
-                                VenueState = e.State,
-                                VenueZipCode = e.ZipCode,
-                                VenueCapacity = e.Capacity,
-                                VenueAltName = e.AltName,
-                                VenueOperatingStatus = e.IsOperating,
+                                Name = e.Name,
+                                Address = e.Address,
+                                City = e.City,
+                                State = e.State,
+                                ZipCode = e.ZipCode,
+                                Capacity = e.Capacity,
+                                AltName = e.AltName,
+                                OperatingStatus = e.IsOperating,
                                 CreatedUtc = e.CreatedUtc,
                                 ModifiedUtc = e.ModifiedUtc
                             });
@@ -81,14 +81,14 @@ namespace WikiConcert.Services
                     new VenueDetail
                     {
                         VenueId = entity.VenueId,
-                        VenueName = entity.Name,
-                        VenueAddress = entity.Address,
-                        VenueCity = entity.City,
-                        VenueState = entity.State,
-                        VenueZipCode = entity.ZipCode,
-                        VenueCapacity = entity.Capacity,
-                        VenueAltName = entity.AltName,
-                        VenueOperatingStatus = entity.IsOperating,
+                        Name = entity.Name,
+                        Address = entity.Address,
+                        City = entity.City,
+                        State = entity.State,
+                        ZipCode = entity.ZipCode,
+                        Capacity = entity.Capacity,
+                        AltName = entity.AltName,
+                        OperatingStatus = entity.IsOperating,
                         CreatedUtc = entity.CreatedUtc,
                         ModifiedUtc = entity.ModifiedUtc
                     };
@@ -105,14 +105,14 @@ namespace WikiConcert.Services
                         .Venues
                         .Single(v => v.VenueId == model.VenueId);
 
-                entity.Name = model.VenueName;
-                entity.Address = model.VenueAddress;
-                entity.City = model.VenueCity;
-                entity.State = model.VenueState;
-                entity.ZipCode = model.VenueZipCode;
-                entity.Capacity = model.VenueCapacity;
-                entity.AltName = model.VenueAltName;
-                entity.IsOperating = model.VenueOperatingStatus;
+                entity.Name = model.Name;
+                entity.Address = model.Address;
+                entity.City = model.City;
+                entity.State = model.State;
+                entity.ZipCode = model.ZipCode;
+                entity.Capacity = model.Capacity;
+                entity.AltName = model.AltName;
+                entity.IsOperating = model.OperatingStatus;
                 entity.ModifiedUtc = DateTimeOffset.UtcNow;
 
                 return ctx.SaveChanges() == 1;
@@ -146,14 +146,15 @@ namespace WikiConcert.Services
                     .Where(v => v.IsOperating == operatingStatus)
                     .Select(v => new VenueDetail
                     {
-                        VenueName = v.Name,
-                        VenueAddress = v.Address,
-                        VenueCity = v.City,
-                        VenueState = v.State,
-                        VenueZipCode = v.ZipCode,
-                        VenueCapacity = v.Capacity,
-                        VenueAltName = v.AltName,
-                        VenueOperatingStatus = v.IsOperating
+                        VenueId = v.VenueId,
+                        Name = v.Name,
+                        Address = v.Address,
+                        City = v.City,
+                        State = v.State,
+                        ZipCode = v.ZipCode,
+                        Capacity = v.Capacity,
+                        AltName = v.AltName,
+                        OperatingStatus = v.IsOperating
             });
                 return query.ToList();
             }
@@ -170,14 +171,15 @@ namespace WikiConcert.Services
                     .Where(v => v.State == state)
                     .Select(v => new VenueDetail
                     {
-                        VenueName = v.Name,
-                        VenueAddress = v.Address,
-                        VenueCity = v.City,
-                        VenueState = v.State,
-                        VenueZipCode = v.ZipCode,
-                        VenueCapacity = v.Capacity,
-                        VenueAltName = v.AltName,
-                        VenueOperatingStatus = v.IsOperating
+                        VenueId = v.VenueId,
+                        Name = v.Name,
+                        Address = v.Address,
+                        City = v.City,
+                        State = v.State,
+                        ZipCode = v.ZipCode,
+                        Capacity = v.Capacity,
+                        AltName = v.AltName,
+                        OperatingStatus = v.IsOperating
                     });
                 return query.ToList();
             }
@@ -194,14 +196,15 @@ namespace WikiConcert.Services
                     .Where(v => v.City == city)
                     .Select(v => new VenueDetail
                     {
-                        VenueName = v.Name,
-                        VenueAddress = v.Address,
-                        VenueCity = v.City,
-                        VenueState = v.State,
-                        VenueZipCode= v.ZipCode,
-                        VenueCapacity = v.Capacity,
-                        VenueAltName = v.AltName,
-                        VenueOperatingStatus = v.IsOperating
+                        VenueId = v.VenueId,
+                        Name = v.Name,
+                        Address = v.Address,
+                        City = v.City,
+                        State = v.State,
+                        ZipCode= v.ZipCode,
+                        Capacity = v.Capacity,
+                        AltName = v.AltName,
+                        OperatingStatus = v.IsOperating
                     });
                 return query.ToList();
             }
@@ -220,14 +223,15 @@ namespace WikiConcert.Services
                         .Where(v => v.Capacity >= capacity)
                         .Select(v => new VenueDetail
                         {
-                            VenueName = v.Name,
-                            VenueAddress = v.Address,
-                            VenueCity = v.City,
-                            VenueState = v.State,
-                            VenueZipCode = v.ZipCode,
-                            VenueCapacity = v.Capacity,
-                            VenueAltName = v.AltName,
-                            VenueOperatingStatus = v.IsOperating
+                            VenueId = v.VenueId,
+                            Name = v.Name,
+                            Address = v.Address,
+                            City = v.City,
+                            State = v.State,
+                            ZipCode = v.ZipCode,
+                            Capacity = v.Capacity,
+                            AltName = v.AltName,
+                            OperatingStatus = v.IsOperating
                         });
                     return query.ToList();
                 }
@@ -239,14 +243,15 @@ namespace WikiConcert.Services
                        .Where(v => v.Capacity <= capacity)
                        .Select(v => new VenueDetail
                        {
-                           VenueName = v.Name,
-                           VenueAddress = v.Address,
-                           VenueCity = v.City,
-                           VenueState = v.State,
-                           VenueZipCode = v.ZipCode,
-                           VenueCapacity = v.Capacity,
-                           VenueAltName = v.AltName,
-                           VenueOperatingStatus = v.IsOperating
+                           VenueId = v.VenueId,
+                           Name = v.Name,
+                           Address = v.Address,
+                           City = v.City,
+                           State = v.State,
+                           ZipCode = v.ZipCode,
+                           Capacity = v.Capacity,
+                           AltName = v.AltName,
+                           OperatingStatus = v.IsOperating
                        });
                     return query.ToList();
                 }
@@ -258,14 +263,15 @@ namespace WikiConcert.Services
                        .Where(v => v.Capacity == capacity)
                        .Select(v => new VenueDetail
                        {
-                           VenueName = v.Name,
-                           VenueAddress = v.Address,
-                           VenueCity = v.City,
-                           VenueState = v.State,
-                           VenueZipCode = v.ZipCode,
-                           VenueCapacity = v.Capacity,
-                           VenueAltName = v.AltName,
-                           VenueOperatingStatus = v.IsOperating
+                           VenueId = v.VenueId,
+                           Name = v.Name,
+                           Address = v.Address,
+                           City = v.City,
+                           State = v.State,
+                           ZipCode = v.ZipCode,
+                           Capacity = v.Capacity,
+                           AltName = v.AltName,
+                           OperatingStatus = v.IsOperating
                        });
                     return query.ToList();
                 }
