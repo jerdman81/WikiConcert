@@ -90,9 +90,9 @@
     <Compile Include="Band.cs" />
     <Compile Include="Concert.cs" />
     <Compile Include="IdentityModels.cs" />
-    <Compile Include="Migrations\202201261431053_InitialMigration.cs" />
-    <Compile Include="Migrations\202201261431053_InitialMigration.designer.cs">
-      <DependentUpon>202201261431053_InitialMigration.cs</DependentUpon>
+    <Compile Include="Migrations\202201261608456_created additional tables.cs" />
+    <Compile Include="Migrations\202201261608456_created additional tables.designer.cs">
+      <DependentUpon>202201261608456_created additional tables.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -111,8 +111,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202201261431053_InitialMigration.resx">
-      <DependentUpon>202201261431053_InitialMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202201261608456_created additional tables.resx">
+      <DependentUpon>202201261608456_created additional tables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
