@@ -66,6 +66,8 @@
     <Compile Include="BandUpdate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SetlistCreate.cs" />
+    <Compile Include="SetlistDetail.cs" />
+    <Compile Include="SetlistListItem.cs" />
     <Compile Include="SongCreate.cs" />
     <Compile Include="SongDetail.cs" />
     <Compile Include="SongLyricItem.cs" />
