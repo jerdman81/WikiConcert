@@ -62,5 +62,15 @@ namespace WikiConcert.Controllers
 
             return InternalServerError();
         }
+        [HttpDelete]
+        public IHttpActionResult SetlistDelete(int id)
+        {
+            var service = CreateSetlistService();
+
+            if (service.DeleteSetlist(id))
+                return Ok("Successfully deleted setlist.");
+
+            return InternalServerError();
+        }
     }
 }
