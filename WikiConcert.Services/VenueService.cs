@@ -28,7 +28,8 @@ namespace WikiConcert.Services
                     State = model.VenueState,
                     Capacity = model.VenueCapacity,
                     AltName = model.VenueAltName,
-                    IsOperating = model.VenueIsOperating
+                    IsOperating = model.VenueIsOperating,
+                    CreatedUtc = DateTimeOffset.UtcNow
                 };
 
             using (var ctx = new ApplicationDbContext())
@@ -108,6 +109,7 @@ namespace WikiConcert.Services
                 entity.Capacity = model.VenueCapacity;
                 entity.AltName = model.VenueAltName;
                 entity.IsOperating = model.VenueOperatingStatus;
+                entity.ModifiedUtc = DateTimeOffset.UtcNow;
 
                 return ctx.SaveChanges() == 1;
             }
