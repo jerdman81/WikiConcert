@@ -25,6 +25,13 @@ namespace WikiConcert.Controllers
             var setlists = service.GetAllSetLists();
             return Ok(setlists);
         }
+        [HttpGet]
+        public IHttpActionResult Get(int id)
+        {
+            SetlistService service = CreateSetlistService();
+            var setlists = service.GetSetlistById(id);
+            return Ok(setlists);
+        }
         [HttpPost]
         public IHttpActionResult Post(SetlistCreate setlist)
         {
