@@ -51,18 +51,19 @@ namespace WikiConcert.Services
             }
         }
 
-        public BandListItem GetBandById(int bandId)
+        public BandDetail GetBandById(int bandId)
         {
             using (var ctx = new ApplicationDbContext())
             {
                 var query = ctx.Bands.Single(b => b.BandId == bandId);
-                return new BandListItem
+                return new BandDetail
                 {
                     BandId = query.BandId,
                     Name = query.Name,
                     Genre = query.Genre,
                     IsActive = query.Active,
-                    Created = query.Created_At
+                    Created = query.Created_At,
+                    Modified = query.Modified_At
                 };
             }
         }
