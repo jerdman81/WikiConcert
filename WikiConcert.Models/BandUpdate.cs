@@ -17,7 +17,5 @@ namespace WikiConcert.Models
         public string Genre { get; set; }
         [Required]
         public bool IsActive { get; set; }
-        [Required]
-        public DateTimeOffset Modified { get; set; }
     }
 }
