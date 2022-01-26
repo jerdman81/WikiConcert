@@ -68,5 +68,25 @@ namespace WikiConcert.Services
                 };
             }
         }
+
+        public bool UpdateSetlist(SetlistUpdate model)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                Setlist entity;
+                try
+                {
+                    entity = ctx.Setlists.Single(s => s.SetlistId == model.SetlistId);
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+                entity.SongIds = model.SongIds;
+                entity.ModifiedUtc = DateTimeOffset.Now;
+
+                return ctx.SaveChanges() == 1;
+            }
+        }
     }
 }
