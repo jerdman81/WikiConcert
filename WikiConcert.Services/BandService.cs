@@ -127,8 +127,15 @@ namespace WikiConcert.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var entity = ctx.Bands.Single(b => b.BandId == model.BandId);
-
+                Band entity;
+                try
+                {
+                    entity = ctx.Bands.Single(b => b.BandId == model.BandId);
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
                 entity.Name = model.Name;
                 entity.Genre = model.Genre;
                 entity.Active = model.IsActive;
