@@ -21,7 +21,6 @@ namespace WikiConcert.Data
         [MaxLength(2,ErrorMessage ="Enter two character abbreviation."), MinLength(2,ErrorMessage ="Enter two character abbreviation.")]
         public string State { get; set; }
         [Required]
-        [MinLength(5, ErrorMessage="Enter 5 digit ZIP code"), MaxLength(5, ErrorMessage ="Enter 5 digit ZIP code")]
         public int ZipCode { get; set; }
         public int Capacity { get; set; }        
         public string AltName { get; set; }
