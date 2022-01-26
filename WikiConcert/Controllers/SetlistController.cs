@@ -47,5 +47,20 @@ namespace WikiConcert.Controllers
 
             return InternalServerError();
         }
+        [HttpPut]
+        public IHttpActionResult UpdateSetlist(SetlistUpdate setlist)
+        {
+            if (setlist == null)
+                return BadRequest("Request body cannot be empty.");
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var service = CreateSetlistService();
+
+            if (service.UpdateSetlist(setlist))
+                return Ok("Successfully updated setlist");
+
+            return InternalServerError();
+        }
     }
 }
