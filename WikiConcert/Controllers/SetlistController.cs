@@ -18,6 +18,13 @@ namespace WikiConcert.Controllers
             var setlistService = new SetlistService(userId);
             return setlistService;
         }
+        [HttpGet]
+        public IHttpActionResult Get()
+        {
+            SetlistService service = CreateSetlistService();
+            var setlists = service.GetAllSetLists();
+            return Ok(setlists);
+        }
         [HttpPost]
         public IHttpActionResult Post(SetlistCreate setlist)
         {
