@@ -73,9 +73,19 @@ namespace WikiConcert.Controllers
             return Ok(songs);
         }*/
 
+        [HttpDelete]
+        public IHttpActionResult Delete(int id)
+        {
+            var service = CreateSongService();
+
+            if (!service.DeleteSong(id))
+                return InternalServerError();
+
+            return Ok();
 
 
 
 
+        }
     }
 }
