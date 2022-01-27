@@ -22,7 +22,6 @@ namespace WikiConcert.Services
             var entity =
                 new Concert()
                 {
-                    ConcertId = model.ConcertId,
                     ConcertName = model.ConcertName,
                     BandId = model.BandId,
                     VenueId = model.VenueId,
