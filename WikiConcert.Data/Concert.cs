@@ -15,15 +15,13 @@ namespace WikiConcert.Data
         [Required]
         [ForeignKey("Band")]
         public int BandId { get; set; }
-        [Required]
+        //[Required]
         public DateTime ConcertDate { get; set; }
         [Required]
         [ForeignKey("Venue")]
-        public int VenueId { get; set; }
-        [Required]
+        public int VenueId { get; set; }        
         [ForeignKey("Setlist")]
-        public int SetlistId { get; set; }
-        [Required]
+        public int SetlistId { get; set; }        
         [Display(Name = "Created")]
         public DateTimeOffset CreatedUtc { get; set; }
         public DateTimeOffset ModifiedUtc { get; set; }

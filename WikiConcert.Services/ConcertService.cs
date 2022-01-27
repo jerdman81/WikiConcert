@@ -21,12 +21,12 @@ namespace WikiConcert.Services
         {
             var entity =
                 new Concert()
-                {
-                    ConcertId = model.ConcertId,
+                {                    
                     BandId = model.BandId,
                     VenueId = model.VenueId,
-                    SetlistId = model.SetlistId
-
+                    
+                    ConcertDate = model.ConcertDate,
+                    CreatedUtc = DateTimeOffset.Now
                 };
 
             using (var ctx = new ApplicationDbContext())
