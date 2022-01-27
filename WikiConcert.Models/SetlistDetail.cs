@@ -9,8 +9,7 @@ namespace WikiConcert.Models
     public class SetlistDetail
     {
         public int SetlistId { get; set; }
-        public List<string> Songs { get; set; }
-        public DateTimeOffset CreatedUtc { get; set; }
-        public DateTimeOffset ModifiedUtc { get; set; }
+        public string ConcertName { get; set; }
+        public List<string> SongsNames { get; set; }
     }
 }

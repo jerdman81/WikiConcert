@@ -17,12 +17,12 @@ namespace WikiConcert.Services
             _userId = userId;
         }
 
-        public bool CreateSetlist(SetlistCreate model)
+        public bool AddSongToSetlist(SetlistCreate model)
         {
             var entity = new Setlist
             {
-                SongIds = model.SongIds,
-                CreatedUtc = DateTimeOffset.Now
+                SongId = model.SongId,
+                ConcertId = model.ConcertId
             };
 
             using (var ctx = new ApplicationDbContext())
@@ -36,24 +36,30 @@ namespace WikiConcert.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var query = ctx.Setlists.Select(s => new SetlistListItem
+                List<SetlistListItem> setList = new List<SetlistListItem>();
+                var query = ctx.Setlists.GroupBy(s => s.Concert.ConcertName);
+                foreach (var group in query)
                 {
-                    SetlistId = s.SetlistId,
-                    Songs = s.Songs.Select(n => n.Name).ToList()
-                });
+                    setList.Add(new SetlistListItem
+                    {
+                        ConcertName = group.Key,
+                        SongCount = group.Count()
+                    }); ;
+                }
 
-                return query.ToList();
+                return setList;
             }
         }
 
-        public SetlistDetail GetSetlistById(int setlistId)
+        public SetlistDetail GetSetlistByConcertId(int concertId)
         {
             using (var ctx = new ApplicationDbContext())
             {
-                Setlist query;
+                List<Setlist> sets;
                 try
                 {
-                    query = ctx.Setlists.Single(s => s.SetlistId == setlistId);
+                    sets = ctx.Setlists.Where(s => s.ConcertId == concertId)
+                        .Select(s => new List<Setlist>()).ToList();
                 }
                 catch (Exception ex)
                 {

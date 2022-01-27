@@ -8,7 +8,7 @@ namespace WikiConcert.Models
 {
     public class SetlistListItem
     {
-        public int SetlistId { get; set; }
-        public List<string> Songs { get; set; }
+        public string ConcertName { get; set; }
+        public int SongCount { get; set; }
     }
 }

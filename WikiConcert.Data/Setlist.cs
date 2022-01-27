@@ -11,14 +11,13 @@ namespace WikiConcert.Data
     public class Setlist
     {
         [Key]
-        public int SetlistId { get; set; }
+        public int SetlistItemId { get; set; }
         [ForeignKey(nameof(Song))]
-        public List<int> SongIds { get; set; }
-        [Required]
-        public DateTimeOffset CreatedUtc { get; set; }
-        [Required]
-        public DateTimeOffset ModifiedUtc { get; set; }
+        public int SongId { get; set; }
+        [ForeignKey(nameof(Concert))]
+        public int ConcertId { get; set; }
 
-        public virtual List<Song> Songs { get; set; }
+        public virtual Song Song { get; set; }
+        public virtual Concert Concert { get; set; }
     }
 }
