@@ -13,6 +13,8 @@ namespace WikiConcert.Data
         [Key]
         public int ConcertId { get; set; }
         [Required]
+        public string ConcertName { get; set; }
+        [Required]
         [ForeignKey("Band")]
         public int BandId { get; set; }
         [Required]

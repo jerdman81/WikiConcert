@@ -42,31 +42,38 @@ namespace WikiConcert.Controllers
         public IHttpActionResult GetByConcertId(int id)
         {
             ConcertService concertService = CreateConcertService();
-            var concerts = concertService.GetConcerts();
+            var concerts = concertService.GetConcertById(id);
             return Ok(concerts);
         }
         [HttpGet]
-        public IHttpActionResult GetByVenueId(string venueId)
+        public IHttpActionResult GetByVenueId(int venueId)
         {
             ConcertService concertService = CreateConcertService();
-            var concerts = concertService.GetConcerts();
+            var concerts = concertService.GetConcertByVenueId(venueId);
             return Ok(concerts);
         }
         [HttpGet]
-        public IHttpActionResult GetByDate(DateTime ConcertDate)
+        public IHttpActionResult GetByDate(DateTimeOffset concertDate)
         {
             ConcertService concertService = CreateConcertService();
-            var concerts = concertService.GetConcerts();
+            var concerts = concertService.GetConcertByDate(concertDate);
             return Ok(concerts);
         }
         [HttpGet, ActionName("Band")]
         public IHttpActionResult GetByBand(int id)
         {
             ConcertService concertService = CreateConcertService();
-            var concerts = concertService.GetConcerts();
+            var concerts = concertService.GetConcertByBandId(id);
             return Ok(concerts);
         }
-        [HttpGet]
+        [HttpGet, ActionName("GetBySong")]
+        public IHttpActionResult GetBySong(int id)
+        {
+            ConcertService concertService = CreateConcertService();
+            var concerts = concertService.GetConcertBySong(id);
+            return Ok(concerts);
+        }
+        [HttpPut]
         public IHttpActionResult Put(ConcertEdit concert)
         {
             if (!ModelState.IsValid)
@@ -80,7 +87,7 @@ namespace WikiConcert.Controllers
             return Ok();
         }
         
-        [HttpGet]
+        [HttpDelete]
         public IHttpActionResult Delete(int id)
         {
             var service = CreateConcertService();
