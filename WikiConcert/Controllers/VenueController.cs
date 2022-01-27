@@ -53,7 +53,7 @@ namespace WikiConcert.Controllers
             VenueService venueService = CreateVenueService();
             var venue = venueService.GetVenueByID(id);
 
-            if(venue != null)
+            if (venue != null)
             {
                 return Ok(venue);
             }
@@ -61,7 +61,7 @@ namespace WikiConcert.Controllers
         }
 
         [HttpPut]
-        public IHttpActionResult Put([FromUri]int id, [FromBody]VenueEdit venue)
+        public IHttpActionResult Put([FromUri] int id, [FromBody] VenueEdit venue)
         {
             if (venue is null)
                 return BadRequest("Your model cannot be empty.");
@@ -71,7 +71,7 @@ namespace WikiConcert.Controllers
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-                     
+
             var service = CreateVenueService();
 
             if (!service.EditVenue(venue))
@@ -81,7 +81,7 @@ namespace WikiConcert.Controllers
         }
 
         [HttpDelete]
-        public IHttpActionResult Delete([FromUri]int id)
+        public IHttpActionResult Delete([FromUri] int id)
         {
             var service = CreateVenueService();
 
@@ -108,26 +108,26 @@ namespace WikiConcert.Controllers
         }
 
         [HttpGet, ActionName("State")]
-        public IHttpActionResult GetByState(States state)
+        public IHttpActionResult GetByState([FromUri] States state)
         {
-            /*if (state is null)
-                return BadRequest("Your parameters cannot be empty."); */
-
             VenueService venueService = CreateVenueService();
             var venue = venueService.GetVenuesByState(state);
             return Ok(venue);
         }
 
         [HttpGet, ActionName("City")]
-        public IHttpActionResult GetByCity(string city)
+        public IHttpActionResult GetByCity([FromUri] string city)
         {
+            if (city is null)
+                return BadRequest("Your paramaters cannot be empty.");
+
             VenueService venueService = CreateVenueService();
             var venue = venueService.GetVenuesByCity(city);
             return Ok(venue);
         }
 
         [HttpGet, ActionName("CapacityGreater")]
-        public IHttpActionResult GetByCapacityGreaterThan(int capacity)
+        public IHttpActionResult GetByCapacityGreaterThan([FromUri] int capacity)
         {
             VenueService venueService = CreateVenueService();
             var venue = venueService.GetVenuesByCapacity(capacity, 'g');
@@ -135,7 +135,7 @@ namespace WikiConcert.Controllers
         }
 
         [HttpGet, ActionName("CapacityLess")]
-        public IHttpActionResult GetByCapacityLessThan(int capacity)
+        public IHttpActionResult GetByCapacityLessThan([FromUri] int capacity)
         {
             VenueService venueService = CreateVenueService();
             var venue = venueService.GetVenuesByCapacity(capacity, 'l');
@@ -143,7 +143,7 @@ namespace WikiConcert.Controllers
         }
 
         [HttpGet, ActionName("CapacityEqual")]
-        public IHttpActionResult GetByCapacityEqualTo(int capacity)
+        public IHttpActionResult GetByCapacityEqualTo([FromUri]int capacity)
         {
             VenueService venueService = CreateVenueService();
             var venue = venueService.GetVenuesByCapacity(capacity, 'e');
