@@ -73,7 +73,7 @@ namespace WikiConcert.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var query = ctx.Songs.Where(s => s.Name == name).Select(s => new SongListItem
+                var query = ctx.Songs.Where(s => s.Name.ToLower() == name.ToLower()).Select(s => new SongListItem
                 {
                     SongId = s.SongId,
                     Name = s.Name,
@@ -89,7 +89,7 @@ namespace WikiConcert.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var query = ctx.Songs.Where(s => s.Artist == artist).Select(s => new SongListItem
+                var query = ctx.Songs.Where(s => s.Artist.ToLower() == artist.ToLower()).Select(s => new SongListItem
                 {
                     SongId = s.SongId,
                     Name = s.Name,
@@ -101,11 +101,12 @@ namespace WikiConcert.Services
             }
         }
 
-        public IEnumerable<SongLyricItem> GetSongByLyric(string lyric)
+        public IEnumerable<SongLyricItem> GetSongByLyrics(string lyric)
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var query = ctx.Songs.Where(s => s.Lyrics.Contains(lyric)).Select(s => new SongLyricItem
+                var query = ctx.Songs.Where(s => s.Lyrics.ToLower().Contains(lyric.ToLower()))
+                    .Select(s => new SongLyricItem
                 {
                     SongId = s.SongId,
                     Name = s.Name,

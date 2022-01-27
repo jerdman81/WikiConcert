@@ -30,7 +30,7 @@ namespace WikiConcert.Controllers
             if (!service.CreateSong(song))
                 return InternalServerError();
 
-            return Ok();
+            return Ok($"Successfully added song {song.Name}");
         }
 
         [HttpGet]
@@ -65,13 +65,24 @@ namespace WikiConcert.Controllers
             return Ok(songs);
         }
 
-        /*[HttpGet]
-        public IHttpActionResult GetSongByLyrics(string name)
+        [HttpGet]
+        public IHttpActionResult GetSongByLyrics(string lyric)
         {
             SongService songService = CreateSongService();
-            var songs = songService.GetSongByLyrics();
+            var songs = songService.GetSongByLyrics(lyric);
             return Ok(songs);
-        }*/
+        }
+
+        [HttpPut]
+        public IHttpActionResult UpdateSong(SongUpdate song)
+        {
+            SongService service = CreateSongService();
+
+            if (service.UpdateSong(song))
+                return Ok("Successfully updated song.");
+
+            return InternalServerError();
+        }
 
         [HttpDelete]
         public IHttpActionResult Delete(int id)

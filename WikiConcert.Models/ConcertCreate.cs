@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 namespace WikiConcert.Models
 {
     public class ConcertCreate
-    {
-        [Required]
-        public int ConcertId { get; set; }
+    {      
+      
         [Required]
         public string ConcertName { get; set; }
         [Required]
