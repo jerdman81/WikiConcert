@@ -61,6 +61,7 @@
     <Compile Include="BandDetail.cs" />
     <Compile Include="BandListItem.cs" />
     <Compile Include="ConcertCreate.cs" />
+    <Compile Include="ConcertListItem.cs" />
     <Compile Include="ConcertDetail.cs" />
     <Compile Include="ConcertEdit.cs" />
     <Compile Include="BandUpdate.cs" />

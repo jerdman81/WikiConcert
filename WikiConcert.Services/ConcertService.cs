@@ -23,10 +23,10 @@ namespace WikiConcert.Services
                 new Concert()
                 {
                     ConcertId = model.ConcertId,
+                    ConcertName = model.ConcertName,
                     BandId = model.BandId,
                     VenueId = model.VenueId,
                     SetlistId = model.SetlistId
-
                 };
 
             using (var ctx = new ApplicationDbContext())
@@ -36,7 +36,7 @@ namespace WikiConcert.Services
             }
         }
 
-        public IEnumerable<ConcertDetail> GetConcerts()
+        public IEnumerable<ConcertListItem> GetConcerts()
         {
             using(var ctx = new ApplicationDbContext())
             {
@@ -45,15 +45,13 @@ namespace WikiConcert.Services
                     .Concerts
                     .Select(
                         e =>
-                        new ConcertDetail
+                        new ConcertListItem
                         {
                             ConcertId = e.ConcertId,
+                            ConcertName = e.ConcertName,
                             BandId = e.BandId,
                             ConcertDate = e.ConcertDate,
-                            VenueId = e.VenueId,
-                            SetlistId = e.SetlistId,
-                            CreatedUtc = e.CreatedUtc,
-                            ModifiedUtc = e.ModifiedUtc
+                            VenueId = e.VenueId
                         });
                 return query.ToArray();
             }
@@ -63,10 +61,18 @@ namespace WikiConcert.Services
         {
             using(var ctx = new ApplicationDbContext())
             {
-                var entity =
-                ctx
-                    .Concerts
-                    .Single(e => e.ConcertId == id);
+                Concert entity;
+                try
+                {
+                    entity =
+                    ctx
+                        .Concerts
+                        .Single(e => e.ConcertId == id);
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
                 return
                     new ConcertDetail
                     {
@@ -81,70 +87,82 @@ namespace WikiConcert.Services
 
             }
         }
-        public ConcertDetail GetConcertByVenueId(int id)
+        public IEnumerable<ConcertListItem> GetConcertByVenueId(int id)
         {
             using (var ctx = new ApplicationDbContext())
             {
                 var entity =
                     ctx
-                    .Concerts
-                    .Single(e => e.VenueId == id);
-                return
-                    new ConcertDetail
+                    .Concerts.Where(c => c.VenueId == id)
+                    .Select(c => new ConcertListItem
                     {
-                        ConcertId = entity.ConcertId,
-                        BandId = entity.BandId,
-                        ConcertDate = entity.ConcertDate,
-                        VenueId = entity.VenueId,
-                        SetlistId = entity.SetlistId,
-                        CreatedUtc = entity.CreatedUtc,
-                        ModifiedUtc = entity.ModifiedUtc
-                    };
-
+                        ConcertId = c.ConcertId,
+                        ConcertName = c.ConcertName,
+                        BandId = c.BandId,
+                        ConcertDate = c.ConcertDate,
+                        VenueId = c.VenueId
+                    });
+                return entity.ToList();
             }
         }
-        public ConcertDetail GetConcertByBandId(int id)
+        public IEnumerable<ConcertListItem> GetConcertByBandId(int id)
         {
             using (var ctx = new ApplicationDbContext())
             {
                 var entity =
                     ctx
-                    .Concerts
-                    .Single(e => e.BandId == id);
-                return
-                    new ConcertDetail
+                    .Concerts.Where(c => c.BandId == id)
+                    .Select(c => new ConcertListItem
                     {
-                        ConcertId = entity.ConcertId,
-                        BandId = entity.BandId,
-                        ConcertDate = entity.ConcertDate,
-                        VenueId = entity.VenueId,
-                        SetlistId = entity.SetlistId,
-                        CreatedUtc = entity.CreatedUtc,
-                        ModifiedUtc = entity.ModifiedUtc
-                    };
+                        ConcertId = c.ConcertId,
+                        ConcertName = c.ConcertName,
+                        BandId = c.BandId,
+                        ConcertDate = c.ConcertDate,
+                        VenueId = c.VenueId
+                    });
 
+                return entity.ToList();
             }
         }
-        public ConcertDetail GetConcertByDate(DateTime ConcertDate)
+        public IEnumerable<ConcertListItem> GetConcertByDate(DateTimeOffset concertDate)
         {
             using (var ctx = new ApplicationDbContext())
             {
                 var entity =
                     ctx
-                    .Concerts
-                    .Single(e => e.ConcertDate == ConcertDate);
-                return
-                    new ConcertDetail
+                    .Concerts.Where(c => c.ConcertDate == concertDate)
+                    .Select(c => new ConcertListItem
                     {
-                        ConcertId = entity.ConcertId,
-                        BandId = entity.BandId,
-                        ConcertDate = entity.ConcertDate,
-                        VenueId = entity.VenueId,
-                        SetlistId = entity.SetlistId,
-                        CreatedUtc = entity.CreatedUtc,
-                        ModifiedUtc = entity.ModifiedUtc
-                    };
+                        ConcertId = c.ConcertId,
+                        ConcertName = c.ConcertName,
+                        BandId = c.BandId,
+                        ConcertDate = c.ConcertDate,
+                        VenueId = c.VenueId
+                    });
 
+                return entity.ToList();
+            }
+        }
+
+        public IEnumerable<ConcertDetail> GetConcertBySong(int id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity = ctx.Concerts
+                    .Where(c => c.Setlist.SongIds.Contains(id))
+                    .Select(c => new ConcertDetail
+                    {
+                        ConcertId = c.ConcertId,
+                        ConcertName = c.ConcertName,
+                        BandId = c.BandId,
+                        ConcertDate = c.ConcertDate,
+                        VenueId = c.VenueId,
+                        SetlistId = c.SetlistId,
+                        CreatedUtc = c.CreatedUtc,
+                        ModifiedUtc = c.ModifiedUtc
+                    });
+
+                return entity.ToList();
             }
         }
 
@@ -152,12 +170,21 @@ namespace WikiConcert.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var entity =
-                    ctx
-                    .Concerts
-                    .Single(C => C.ConcertId == model.ConcertId);
+                Concert entity;
+                try
+                {
+                    entity =
+                        ctx
+                        .Concerts
+                        .Single(C => C.ConcertId == model.ConcertId);
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
 
                 entity.ConcertId = model.ConcertId;
+                entity.ConcertName = model.ConcertName;
                 entity.BandId = model.BandId;
                 entity.ConcertDate = model.ConcertDate;
                 entity.VenueId = model.VenueId;
@@ -171,10 +198,18 @@ namespace WikiConcert.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var entity = 
-                    ctx
-                    .Concerts
-                    .Single(C => C.ConcertId == concertId);
+                Concert entity;
+                try
+                {
+                    entity = 
+                        ctx
+                        .Concerts
+                        .Single(C => C.ConcertId == concertId);
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
 
                 ctx.Concerts.Remove(entity);
 
