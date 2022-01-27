@@ -42,9 +42,10 @@ namespace WikiConcert.Services
                 {
                     setList.Add(new SetlistListItem
                     {
+                        SetlistIds = group.Select(s => s.SetlistId).ToList(),
                         ConcertName = group.Key,
                         SongCount = group.Count()
-                    }); ;
+                    }); ; ;
                 }
 
                 return setList;
@@ -55,11 +56,10 @@ namespace WikiConcert.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                List<Setlist> sets;
+                IEnumerable<Setlist> sets;
                 try
                 {
-                    sets = ctx.Setlists.Where(s => s.ConcertId == concertId)
-                        .Select(s => new List<Setlist>()).ToList();
+                    sets = ctx.Setlists.Where(s => s.ConcertId == concertId);
                 }
                 catch (Exception ex)
                 {
@@ -67,14 +67,15 @@ namespace WikiConcert.Services
                 }
                 return new SetlistDetail
                 {
-                    SetlistId = query.SetlistId,
-                    Songs = query.Songs.Select(n => n.Name).ToList(),
-                    CreatedUtc = query.CreatedUtc,
-                    ModifiedUtc = query.ModifiedUtc
+                    SetlistIds = sets.Select(s => s.SetlistId).ToList(),
+                    ConcertId = sets.First().ConcertId,
+                    ConcertName = sets.First().Concert.ConcertName,
+                    SongIds = sets.Select(s => s.SongId).ToList(),
+                    SongsNames = sets.Select(s => s.Song.Name).ToList()
                 };
             }
         }
-
+        /*
         public bool UpdateSetlist(SetlistUpdate model)
         {
             using (var ctx = new ApplicationDbContext())
@@ -94,7 +95,7 @@ namespace WikiConcert.Services
                 return ctx.SaveChanges() == 1;
             }
         }
-
+        */
         public bool DeleteSetlist(int setlistId)
         {
             using (var ctx = new ApplicationDbContext())

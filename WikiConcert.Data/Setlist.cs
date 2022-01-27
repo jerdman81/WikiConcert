@@ -11,7 +11,7 @@ namespace WikiConcert.Data
     public class Setlist
     {
         [Key]
-        public int SetlistItemId { get; set; }
+        public int SetlistId { get; set; }
         [ForeignKey(nameof(Song))]
         public int SongId { get; set; }
         [ForeignKey(nameof(Concert))]

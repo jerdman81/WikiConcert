@@ -8,8 +8,10 @@ namespace WikiConcert.Models
 {
     public class SetlistDetail
     {
-        public int SetlistId { get; set; }
+        public int ConcertId { get; set; }
         public string ConcertName { get; set; }
+        public List<int> SetlistIds { get; set; }
+        public List<int> SongIds { get; set; }
         public List<string> SongsNames { get; set; }
     }
 }

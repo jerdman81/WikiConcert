@@ -22,7 +22,6 @@ namespace WikiConcert.Services
             var entity =
                 new Concert()
                 {
-                    ConcertId = model.ConcertId,
                     ConcertName = model.ConcertName,
                     BandId = model.BandId,
                     VenueId = model.VenueId,
@@ -143,7 +142,7 @@ namespace WikiConcert.Services
                 return entity.ToList();
             }
         }
-
+        /*
         public IEnumerable<ConcertDetail> GetConcertBySong(int id)
         {
             using (var ctx = new ApplicationDbContext())
@@ -165,7 +164,7 @@ namespace WikiConcert.Services
                 return entity.ToList();
             }
         }
-
+        */
         public bool EditConcert(ConcertEdit model)
         {
             using (var ctx = new ApplicationDbContext())

@@ -66,6 +66,7 @@ namespace WikiConcert.Controllers
             var concerts = concertService.GetConcertByBandId(id);
             return Ok(concerts);
         }
+        /*
         [HttpGet, ActionName("GetBySong")]
         public IHttpActionResult GetBySong(int id)
         {
@@ -73,6 +74,7 @@ namespace WikiConcert.Controllers
             var concerts = concertService.GetConcertBySong(id);
             return Ok(concerts);
         }
+        */
         [HttpPut]
         public IHttpActionResult Put(ConcertEdit concert)
         {
