@@ -7,18 +7,12 @@ using System.Threading.Tasks;
 
 namespace WikiConcert.Models
 {
-    public class ConcertCreate
-    {      
-      
-        [Required]
-        public string ConcertName { get; set; }
-        [Required]
+    public class ConcertListItem
+    {
+        public int ConcertId { get; set; }
         public int BandId { get; set; }
-        [Required]
+        public string ConcertName { get; set;}
         public DateTime ConcertDate { get; set; }
-        [Required]
-        public int VenueId { get; set; }        
-        public int SetlistId { get; set; }
-        
+        public int VenueId { get; set; }
     }
 }
