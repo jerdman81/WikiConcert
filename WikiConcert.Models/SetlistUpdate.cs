@@ -7,15 +7,11 @@ using System.Threading.Tasks;
 
 namespace WikiConcert.Models
 {
-    public class BandUpdate
+    public class SetlistUpdate
     {
         [Required]
-        public int BandId { get; set; }
+        public int SetlistId { get; set; }
         [Required]
-        public string Name { get; set; }
-        [Required]
-        public string Genre { get; set; }
-        [Required]
-        public bool IsActive { get; set; }
+        public List<int> SongIds { get; set; }
     }
 }

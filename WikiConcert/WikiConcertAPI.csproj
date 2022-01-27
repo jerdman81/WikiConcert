@@ -210,6 +210,7 @@
     <Compile Include="Controllers\BandController.cs" />
     <Compile Include="Controllers\ConcertController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SetlistController.cs" />
     <Compile Include="Controllers\SongController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Controllers\VenueController.cs" />

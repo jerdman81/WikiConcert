@@ -31,5 +31,82 @@ namespace WikiConcert.Services
                 return ctx.SaveChanges() == 1;
             }
         }
+
+        public IEnumerable<SetlistListItem> GetAllSetLists()
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query = ctx.Setlists.Select(s => new SetlistListItem
+                {
+                    SetlistId = s.SetlistId,
+                    Songs = s.Songs.Select(n => n.Name).ToList()
+                });
+
+                return query.ToList();
+            }
+        }
+
+        public SetlistDetail GetSetlistById(int setlistId)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                Setlist query;
+                try
+                {
+                    query = ctx.Setlists.Single(s => s.SetlistId == setlistId);
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+                return new SetlistDetail
+                {
+                    SetlistId = query.SetlistId,
+                    Songs = query.Songs.Select(n => n.Name).ToList(),
+                    CreatedUtc = query.CreatedUtc,
+                    ModifiedUtc = query.ModifiedUtc
+                };
+            }
+        }
+
+        public bool UpdateSetlist(SetlistUpdate model)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                Setlist entity;
+                try
+                {
+                    entity = ctx.Setlists.Single(s => s.SetlistId == model.SetlistId);
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+                entity.SongIds = model.SongIds;
+                entity.ModifiedUtc = DateTimeOffset.Now;
+
+                return ctx.SaveChanges() == 1;
+            }
+        }
+
+        public bool DeleteSetlist(int setlistId)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                Setlist entity;
+                try
+                {
+                    entity = ctx.Setlists.Single(s => s.SetlistId == setlistId);
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+
+                ctx.Setlists.Remove(entity);
+
+                return ctx.SaveChanges() == 1;
+            }
+        }
     }
 }

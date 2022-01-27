@@ -44,25 +44,33 @@ namespace WikiConcert.Services
                     Name = b.Name,
                     Genre = b.Genre,
                     IsActive = b.Active,
-                    Created = b.Created_At
                 });
 
                 return query.ToList();
             }
         }
 
-        public BandListItem GetBandById(int bandId)
+        public BandDetail GetBandById(int bandId)
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var query = ctx.Bands.Single(b => b.BandId == bandId);
-                return new BandListItem
+                Band query;
+                try
+                {
+                    query = ctx.Bands.Single(b => b.BandId == bandId);
+                }
+                catch (Exception e)
+                {
+                    return null;
+                }
+                return new BandDetail
                 {
                     BandId = query.BandId,
                     Name = query.Name,
                     Genre = query.Genre,
                     IsActive = query.Active,
-                    Created = query.Created_At
+                    Created = query.Created_At,
+                    Modified = query.Modified_At
                 };
             }
         }
@@ -77,7 +85,6 @@ namespace WikiConcert.Services
                     Name = b.Name,
                     Genre = b.Genre,
                     IsActive=b.Active,
-                    Created=b.Created_At
                 });
 
                 return query.ToList();
@@ -94,7 +101,6 @@ namespace WikiConcert.Services
                     Name = b.Name,
                     Genre = b.Genre,
                     IsActive = b.Active,
-                    Created = b.Created_At
                 });
 
                 return query.ToList();
@@ -111,7 +117,6 @@ namespace WikiConcert.Services
                     Name = b.Name,
                     Genre = b.Genre,
                     IsActive = b.Active,
-                    Created = b.Created_At
                 });
 
                 return query.ToList();
@@ -122,8 +127,15 @@ namespace WikiConcert.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var entity = ctx.Bands.Single(b => b.BandId == model.BandId);
-
+                Band entity;
+                try
+                {
+                    entity = ctx.Bands.Single(b => b.BandId == model.BandId);
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
                 entity.Name = model.Name;
                 entity.Genre = model.Genre;
                 entity.Active = model.IsActive;
@@ -137,7 +149,15 @@ namespace WikiConcert.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var entity = ctx.Bands.Single(b => b.BandId == BandId);
+                Band entity;
+                try
+                {
+                    entity = ctx.Bands.Single(b => b.BandId == BandId);
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
 
                 ctx.Bands.Remove(entity);
 

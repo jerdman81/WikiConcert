@@ -18,8 +18,10 @@ namespace WikiConcert.Data
         [Required]
         public string City { get; set; }
         [Required]
-        [MaxLength(2), MinLength(2)]
+        [MaxLength(2,ErrorMessage ="Enter two character abbreviation."), MinLength(2,ErrorMessage ="Enter two character abbreviation.")]
         public string State { get; set; }
+        [Required]
+        public int ZipCode { get; set; }
         public int Capacity { get; set; }        
         public string AltName { get; set; }
         [Required]
@@ -27,6 +29,7 @@ namespace WikiConcert.Data
         [Required]
         [Display(Name = "Created")]
         public DateTimeOffset CreatedUtc  { get; set; }
+        [Display(Name ="Modified")]
         public DateTimeOffset ModifiedUtc { get; set; }
     }
 }
