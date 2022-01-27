@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WikiConcert.Data;
+using WikiConcert.Data.Enums;
 using WikiConcert.Models;
 
 namespace WikiConcert.Services
@@ -56,7 +57,7 @@ namespace WikiConcert.Services
                                 Name = e.Name,
                                 Address = e.Address,
                                 City = e.City,
-                                State = e.State,
+                                State = e.State.ToString(),
                                 ZipCode = e.ZipCode,
                                 Capacity = e.Capacity,
                                 AltName = e.AltName,
@@ -73,10 +74,18 @@ namespace WikiConcert.Services
         {
             using(var ctx = new ApplicationDbContext())
             {
-                var entity =
+                Venue entity;
+                try
+                {
+                    entity =
                     ctx
                         .Venues
                         .Single(e => e.VenueId == id);
+                }
+                catch (Exception e)
+                {
+                    return (null);
+                };
                 return
                     new VenueDetail
                     {
@@ -84,7 +93,7 @@ namespace WikiConcert.Services
                         Name = entity.Name,
                         Address = entity.Address,
                         City = entity.City,
-                        State = entity.State,
+                        State = entity.State.ToString(),
                         ZipCode = entity.ZipCode,
                         Capacity = entity.Capacity,
                         AltName = entity.AltName,
@@ -100,11 +109,19 @@ namespace WikiConcert.Services
         {
             using(var ctx = new ApplicationDbContext())
             {
-                var entity =
-                    ctx
+                Venue entity;
+                try
+                {
+                    entity = ctx
                         .Venues
                         .Single(v => v.VenueId == model.VenueId);
 
+                }
+                catch (Exception e)
+                {
+                    return (false);
+                };
+                
                 entity.Name = model.Name;
                 entity.Address = model.Address;
                 entity.City = model.City;
@@ -114,7 +131,7 @@ namespace WikiConcert.Services
                 entity.AltName = model.AltName;
                 entity.IsOperating = model.OperatingStatus;
                 entity.ModifiedUtc = DateTimeOffset.UtcNow;
-
+                
                 return ctx.SaveChanges() == 1;
             }
         }
@@ -124,10 +141,18 @@ namespace WikiConcert.Services
         {
             using(var ctx = new ApplicationDbContext())
             {
-                var entity =
+                Venue entity;
+                try
+                {
+                    entity =
                     ctx
                         .Venues
                         .Single(v => v.VenueId == venueId);
+                }
+                catch (Exception e)
+                {
+                    return (false);
+                }
 
                 ctx.Venues.Remove(entity);
 
@@ -150,7 +175,7 @@ namespace WikiConcert.Services
                         Name = v.Name,
                         Address = v.Address,
                         City = v.City,
-                        State = v.State,
+                        State = v.State.ToString(),
                         ZipCode = v.ZipCode,
                         Capacity = v.Capacity,
                         AltName = v.AltName,
@@ -163,7 +188,7 @@ namespace WikiConcert.Services
         }
 
         // Venue Read by State
-        public IEnumerable<VenueDetail> GetVenuesByState(string state)
+        public IEnumerable<VenueDetail> GetVenuesByState(States state)
         {
             using (var ctx = new ApplicationDbContext())
             {
@@ -177,7 +202,7 @@ namespace WikiConcert.Services
                         Name = v.Name,
                         Address = v.Address,
                         City = v.City,
-                        State = v.State,
+                        State = v.State.ToString(),
                         ZipCode = v.ZipCode,
                         Capacity = v.Capacity,
                         AltName = v.AltName,
@@ -204,7 +229,7 @@ namespace WikiConcert.Services
                         Name = v.Name,
                         Address = v.Address,
                         City = v.City,
-                        State = v.State,
+                        State = v.State.ToString(),
                         ZipCode= v.ZipCode,
                         Capacity = v.Capacity,
                         AltName = v.AltName,
@@ -233,7 +258,7 @@ namespace WikiConcert.Services
                             Name = v.Name,
                             Address = v.Address,
                             City = v.City,
-                            State = v.State,
+                            State = v.State.ToString(),
                             ZipCode = v.ZipCode,
                             Capacity = v.Capacity,
                             AltName = v.AltName,
@@ -255,7 +280,7 @@ namespace WikiConcert.Services
                            Name = v.Name,
                            Address = v.Address,
                            City = v.City,
-                           State = v.State,
+                           State = v.State.ToString(),
                            ZipCode = v.ZipCode,
                            Capacity = v.Capacity,
                            AltName = v.AltName,
@@ -277,7 +302,7 @@ namespace WikiConcert.Services
                            Name = v.Name,
                            Address = v.Address,
                            City = v.City,
-                           State = v.State,
+                           State = v.State.ToString(),
                            ZipCode = v.ZipCode,
                            Capacity = v.Capacity,
                            AltName = v.AltName,
