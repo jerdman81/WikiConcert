@@ -5,6 +5,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WikiConcert.Data;
+using WikiConcert.Data.Enums;
 using WikiConcert.Models;
 using WikiConcert.Services;
 
@@ -21,8 +23,11 @@ namespace WikiConcert.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult Post(VenueCreate venue)
+        public IHttpActionResult Post([FromBody] VenueCreate venue)
         {
+            if (venue is null)
+                return BadRequest("Your request body cannot be empty.");
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -31,7 +36,7 @@ namespace WikiConcert.Controllers
             if (!service.CreateVenue(venue))
                 return InternalServerError();
 
-            return Ok();
+            return Ok($"You created a Venue named {venue.Name} successfully!");
         }
 
         [HttpGet]
@@ -43,16 +48,27 @@ namespace WikiConcert.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult Get(int id)
+        public IHttpActionResult Get([FromUri] int id)
         {
             VenueService venueService = CreateVenueService();
             var venue = venueService.GetVenueByID(id);
-            return Ok(venue);
+
+            if (venue != null)
+            {
+                return Ok(venue);
+            }
+            return NotFound();
         }
 
         [HttpPut]
-        public IHttpActionResult Put(VenueEdit venue)
+        public IHttpActionResult Put([FromUri] int id, [FromBody] VenueEdit venue)
         {
+            if (venue is null)
+                return BadRequest("Your model cannot be empty.");
+
+            if (id != venue.VenueId)
+                return BadRequest("Ids do not match");
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -65,7 +81,7 @@ namespace WikiConcert.Controllers
         }
 
         [HttpDelete]
-        public IHttpActionResult Delete(int id)
+        public IHttpActionResult Delete([FromUri] int id)
         {
             var service = CreateVenueService();
 
@@ -92,7 +108,7 @@ namespace WikiConcert.Controllers
         }
 
         [HttpGet, ActionName("State")]
-        public IHttpActionResult GetByState(string state)
+        public IHttpActionResult GetByState([FromUri] States state)
         {
             VenueService venueService = CreateVenueService();
             var venue = venueService.GetVenuesByState(state);
@@ -100,15 +116,18 @@ namespace WikiConcert.Controllers
         }
 
         [HttpGet, ActionName("City")]
-        public IHttpActionResult GetByCity(string city)
+        public IHttpActionResult GetByCity([FromUri] string city)
         {
+            if (city is null)
+                return BadRequest("Your paramaters cannot be empty.");
+
             VenueService venueService = CreateVenueService();
             var venue = venueService.GetVenuesByCity(city);
             return Ok(venue);
         }
 
         [HttpGet, ActionName("CapacityGreater")]
-        public IHttpActionResult GetByCapacityGreaterThan(int capacity)
+        public IHttpActionResult GetByCapacityGreaterThan([FromUri] int capacity)
         {
             VenueService venueService = CreateVenueService();
             var venue = venueService.GetVenuesByCapacity(capacity, 'g');
@@ -116,7 +135,7 @@ namespace WikiConcert.Controllers
         }
 
         [HttpGet, ActionName("CapacityLess")]
-        public IHttpActionResult GetByCapacityLessThan(int capacity)
+        public IHttpActionResult GetByCapacityLessThan([FromUri] int capacity)
         {
             VenueService venueService = CreateVenueService();
             var venue = venueService.GetVenuesByCapacity(capacity, 'l');
@@ -124,7 +143,7 @@ namespace WikiConcert.Controllers
         }
 
         [HttpGet, ActionName("CapacityEqual")]
-        public IHttpActionResult GetByCapacityEqualTo(int capacity)
+        public IHttpActionResult GetByCapacityEqualTo([FromUri]int capacity)
         {
             VenueService venueService = CreateVenueService();
             var venue = venueService.GetVenuesByCapacity(capacity, 'e');
