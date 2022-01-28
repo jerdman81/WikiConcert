@@ -55,7 +55,15 @@ namespace WikiConcert.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var query = ctx.Songs.Single(s => s.SongId == id);
+                Song query;
+                try
+                {
+                    query = ctx.Songs.Single(s => s.SongId == id);
+                }
+                catch (Exception e)
+                {
+                    return (null);
+                };
                 return new SongDetail
                 {
                     SongId = query.SongId,
@@ -73,7 +81,7 @@ namespace WikiConcert.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var query = ctx.Songs.Where(s => s.Name.ToLower() == name.ToLower()).Select(s => new SongListItem
+                var query = ctx.Songs.Where(s => s.Name.ToLower().Contains(name.ToLower())).Select(s => new SongListItem
                 {
                     SongId = s.SongId,
                     Name = s.Name,
@@ -89,7 +97,7 @@ namespace WikiConcert.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var query = ctx.Songs.Where(s => s.Artist.ToLower() == artist.ToLower()).Select(s => new SongListItem
+                var query = ctx.Songs.Where(s => s.Artist.ToLower().Contains(artist.ToLower())).Select(s => new SongListItem
                 {
                     SongId = s.SongId,
                     Name = s.Name,
@@ -123,7 +131,15 @@ namespace WikiConcert.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var entity = ctx.Songs.Single(s => s.SongId == model.SongId);
+                Song entity;
+                try
+                {
+                    entity = ctx.Songs.Single(s => s.SongId == model.SongId);
+                }
+                catch (Exception e)
+                {
+                    return false;
+                };
 
                 entity.Name = model.Name;
                 entity.Artist = model.Artist;
@@ -139,8 +155,15 @@ namespace WikiConcert.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var entity = ctx.Songs.Single(s => s.SongId == id);
-
+                Song entity;
+                try
+                {
+                    entity = ctx.Songs.Single(s => s.SongId == id);
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                };
                 ctx.Songs.Remove(entity);
 
                 return ctx.SaveChanges() == 1;

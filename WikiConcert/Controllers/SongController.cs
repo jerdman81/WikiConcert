@@ -20,8 +20,11 @@ namespace WikiConcert.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult Post(SongCreate song)
+        public IHttpActionResult Post([FromBody] SongCreate song)
         {
+            if (song is null)
+                return BadRequest("Your request body cannot be empty.");
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -42,7 +45,7 @@ namespace WikiConcert.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult GetSongById(int id)
+        public IHttpActionResult GetSongById([FromUri]int id)
         {
             SongService songService = CreateSongService();
             var songs = songService.GetSongById(id);
@@ -50,7 +53,7 @@ namespace WikiConcert.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult GetSongByName(string name)
+        public IHttpActionResult GetSongByName([FromUri]string name)
         {
             SongService songService = CreateSongService();
             var songs = songService.GetSongByName(name);
@@ -58,7 +61,7 @@ namespace WikiConcert.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult GetSongByArtist(string name)
+        public IHttpActionResult GetSongByArtist([FromUri]string name)
         {
             SongService songService = CreateSongService();
             var songs = songService.GetSongByArtist(name);
@@ -66,7 +69,7 @@ namespace WikiConcert.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult GetSongByLyrics(string lyric)
+        public IHttpActionResult GetSongByLyrics([FromUri]string lyric)
         {
             SongService songService = CreateSongService();
             var songs = songService.GetSongByLyrics(lyric);
@@ -74,12 +77,21 @@ namespace WikiConcert.Controllers
         }
 
         [HttpPut]
-        public IHttpActionResult UpdateSong(SongUpdate song)
+        public IHttpActionResult UpdateSong([FromUri] int id, [FromBody]SongUpdate song)
         {
+            if (song == null)
+                return BadRequest("Your model cannot be empty.");
+
+            if (id != song.SongId)
+                return BadRequest("Ids do not match.");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             SongService service = CreateSongService();
 
             if (service.UpdateSong(song))
-                return Ok("Successfully updated song.");
+                return Ok($"Successfully updated {song.Name}.");
 
             return InternalServerError();
         }
@@ -92,7 +104,7 @@ namespace WikiConcert.Controllers
             if (!service.DeleteSong(id))
                 return InternalServerError();
 
-            return Ok();
+            return Ok($"Successfully deleted song {id}.");
 
 
 
