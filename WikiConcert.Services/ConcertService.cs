@@ -25,7 +25,8 @@ namespace WikiConcert.Services
                     ConcertName = model.ConcertName,
                     BandId = model.BandId,
                     VenueId = model.VenueId,
-                    SetlistId = model.SetlistId
+                    CreatedUtc = DateTimeOffset.Now,
+                    //SetlistId = model.SetlistId
                 };
 
             using (var ctx = new ApplicationDbContext())
@@ -79,7 +80,8 @@ namespace WikiConcert.Services
                         BandId = entity.BandId,
                         ConcertDate = entity.ConcertDate,
                         VenueId = entity.VenueId,
-                        SetlistId = entity.SetlistId,
+                        Setlist = ctx.Setlists.Where(s => s.ConcertId == entity.ConcertId)
+                            .Select(s => s.Song.Name).ToList(),
                         CreatedUtc = entity.CreatedUtc,
                         ModifiedUtc = entity.ModifiedUtc
                     };
@@ -187,7 +189,7 @@ namespace WikiConcert.Services
                 entity.BandId = model.BandId;
                 entity.ConcertDate = model.ConcertDate;
                 entity.VenueId = model.VenueId;
-                entity.SetlistId = model.SetlistId;
+                //entity.SetlistId = model.SetlistId;
 
                 return ctx.SaveChanges() == 1;
             }

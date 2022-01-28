@@ -18,7 +18,7 @@ namespace WikiConcert.Models
         public DateTime ConcertDate { get; set; }
         [Required]
         public int VenueId { get; set; }        
-        public int SetlistId { get; set; }
+        //public int SetlistId { get; set; }
         
     }
 }

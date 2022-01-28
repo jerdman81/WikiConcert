@@ -18,17 +18,18 @@ namespace WikiConcert.Data
         [ForeignKey("Band")]
         public int BandId { get; set; }
         //[Required]
-        public DateTime ConcertDate { get; set; }
+        public DateTime? ConcertDate { get; set; }
         [Required]
         [ForeignKey("Venue")]
         public int VenueId { get; set; }        
-        [ForeignKey("Setlist")]
-        public int SetlistId { get; set; }        
+        //[ForeignKey("Setlist")]
+        //public int SetlistId { get; set; }
+        [Required]
         [Display(Name = "Created")]
         public DateTimeOffset CreatedUtc { get; set; }
-        public DateTimeOffset ModifiedUtc { get; set; }
+        public DateTimeOffset? ModifiedUtc { get; set; }
 
-        public virtual Setlist Setlist { get; set; }
+        //public virtual Setlist Setlist { get; set; }
         public virtual Band Band { get; set; }
         public virtual Venue Venue { get; set; }
     }
