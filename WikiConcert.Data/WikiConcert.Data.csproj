@@ -91,15 +91,6 @@
     <Compile Include="Concert.cs" />
     <Compile Include="Enums\States.cs" />
     <Compile Include="IdentityModels.cs" />
-    <Compile Include="Migrations\202201272145561_NewDatabase.cs" />
-    <Compile Include="Migrations\202201272145561_NewDatabase.designer.cs">
-      <DependentUpon>202201272145561_NewDatabase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202201272201410_ModifiedConcertDates.cs" />
-    <Compile Include="Migrations\202201272201410_ModifiedConcertDates.designer.cs">
-      <DependentUpon>202201272201410_ModifiedConcertDates.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setlist.cs" />
     <Compile Include="Song.cs" />
