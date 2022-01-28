@@ -91,11 +91,6 @@
     <Compile Include="Concert.cs" />
     <Compile Include="Enums\States.cs" />
     <Compile Include="IdentityModels.cs" />
-    <Compile Include="Migrations\202201272052516_initialmigration.cs" />
-    <Compile Include="Migrations\202201272052516_initialmigration.designer.cs">
-      <DependentUpon>202201272052516_initialmigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setlist.cs" />
     <Compile Include="Song.cs" />
@@ -104,11 +99,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202201272052516_initialmigration.resx">
-      <DependentUpon>202201272052516_initialmigration.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

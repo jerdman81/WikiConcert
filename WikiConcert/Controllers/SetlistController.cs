@@ -29,7 +29,7 @@ namespace WikiConcert.Controllers
         public IHttpActionResult Get(int id)
         {
             SetlistService service = CreateSetlistService();
-            var setlists = service.GetSetlistById(id);
+            var setlists = service.GetSetlistByConcertId(id);
             return Ok(setlists);
         }
         [HttpPost]
@@ -42,11 +42,12 @@ namespace WikiConcert.Controllers
 
             var service = CreateSetlistService();
 
-            if (service.CreateSetlist(setlist))
+            if (service.AddSongToSetlist(setlist))
                 return Ok($"Successfully added setlist.");
 
             return InternalServerError();
         }
+        /*
         [HttpPut]
         public IHttpActionResult UpdateSetlist(SetlistUpdate setlist)
         {
@@ -62,6 +63,7 @@ namespace WikiConcert.Controllers
 
             return InternalServerError();
         }
+        */
         [HttpDelete]
         public IHttpActionResult SetlistDelete(int id)
         {
