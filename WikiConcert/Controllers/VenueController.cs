@@ -126,6 +126,17 @@ namespace WikiConcert.Controllers
             return Ok(venue);
         }
 
+        [HttpGet, ActionName("Name")]
+        public IHttpActionResult GetByName([FromUri] string name)
+        {
+            if (name is null)
+                return BadRequest("Your paramaters cannot be empty.");
+
+            VenueService venueService = CreateVenueService();
+            var venue = venueService.GetVenuesByName(name);
+            return Ok(venue);
+        }
+
         [HttpGet, ActionName("CapacityGreater")]
         public IHttpActionResult GetByCapacityGreaterThan([FromUri] int capacity)
         {

@@ -222,7 +222,7 @@ namespace WikiConcert.Services
                 var query =
                 ctx
                     .Venues
-                    .Where(v => v.City == city)
+                    .Where(v => v.City.ToLower() == city.ToLower())
                     .Select(v => new VenueDetail
                     {
                         VenueId = v.VenueId,
@@ -231,6 +231,33 @@ namespace WikiConcert.Services
                         City = v.City,
                         State = v.State.ToString(),
                         ZipCode= v.ZipCode,
+                        Capacity = v.Capacity,
+                        AltName = v.AltName,
+                        OperatingStatus = v.IsOperating,
+                        CreatedUtc = v.CreatedUtc,
+                        ModifiedUtc = v.ModifiedUtc
+                    });
+                return query.ToList();
+            }
+        }
+
+        // Venue Read by Name
+        public IEnumerable<VenueDetail> GetVenuesByName(string name)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query =
+                ctx
+                    .Venues
+                    .Where(v => v.Name.ToLower() == name.ToLower())
+                    .Select(v => new VenueDetail
+                    {
+                        VenueId = v.VenueId,
+                        Name = v.Name,
+                        Address = v.Address,
+                        City = v.City,
+                        State = v.State.ToString(),
+                        ZipCode = v.ZipCode,
                         Capacity = v.Capacity,
                         AltName = v.AltName,
                         OperatingStatus = v.IsOperating,
