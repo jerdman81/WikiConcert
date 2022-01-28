@@ -19,15 +19,24 @@ namespace WikiConcert.Services
 
         public bool AddSongToSetlist(SetlistCreate model)
         {
-            var entity = new Setlist
+            List<Setlist> setlistItems = new List<Setlist>();
+
+            foreach (int songId in model.SongId)
             {
-                SongId = model.SongId,
-                ConcertId = model.ConcertId
-            };
+                var entity = new Setlist
+                {
+                    SongId = songId,
+                    ConcertId = model.ConcertId
+                };
+                setlistItems.Add(entity);
+            }
 
             using (var ctx = new ApplicationDbContext())
             {
-                ctx.Setlists.Add(entity);
+                foreach(var item in setlistItems)
+                {
+                    ctx.Setlists.Add(item);
+                }
                 return ctx.SaveChanges() == 1;
             }
         }
@@ -59,7 +68,7 @@ namespace WikiConcert.Services
                 IEnumerable<Setlist> sets;
                 try
                 {
-                    sets = ctx.Setlists.Where(s => s.ConcertId == concertId);
+                    sets = ctx.Setlists.Include("Song").Where(s => s.ConcertId == concertId);
                 }
                 catch (Exception ex)
                 {
@@ -96,7 +105,7 @@ namespace WikiConcert.Services
             }
         }
         */
-        public bool DeleteSetlist(int setlistId)
+        public bool DeleteSetlistItem(int setlistId)
         {
             using (var ctx = new ApplicationDbContext())
             {
@@ -111,6 +120,26 @@ namespace WikiConcert.Services
                 }
 
                 ctx.Setlists.Remove(entity);
+
+                return ctx.SaveChanges() == 1;
+            }
+        }
+
+        public bool DeleteSetlist(int concertId)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                List<Setlist> setlistItems;
+
+                setlistItems = ctx.Setlists.Where(s => s.ConcertId == concertId).ToList();
+
+                if (setlistItems.Count == 0)
+                    return false;
+
+                foreach (Setlist item in setlistItems)
+                {
+                    ctx.Setlists.Remove(item);
+                }
 
                 return ctx.SaveChanges() == 1;
             }

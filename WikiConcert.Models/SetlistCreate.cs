@@ -10,7 +10,7 @@ namespace WikiConcert.Models
     public class SetlistCreate
     {
         [Required]
-        public int SongId { get; set; }
+        public List<int> SongId { get; set; }
         [Required]
         public int ConcertId { get; set; }
     }
