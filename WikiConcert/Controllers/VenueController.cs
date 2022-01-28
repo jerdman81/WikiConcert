@@ -77,7 +77,7 @@ namespace WikiConcert.Controllers
             if (!service.EditVenue(venue))
                 return InternalServerError();
 
-            return Ok();
+            return Ok($"Successfully updated {venue}.");
         }
 
         [HttpDelete]
@@ -88,7 +88,7 @@ namespace WikiConcert.Controllers
             if (!service.DeleteVenue(id))
                 return InternalServerError();
 
-            return Ok();
+            return Ok($"Successfully deleted venue {id}.");
         }
 
         [HttpGet, ActionName("isActive")]
