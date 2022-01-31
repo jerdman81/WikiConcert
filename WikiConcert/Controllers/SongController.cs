@@ -14,7 +14,15 @@ namespace WikiConcert.Controllers
     {
         private SongService CreateSongService()
         {
-            var userId = Guid.Parse(User.Identity.GetUserId());
+            Guid userId;
+            try
+            {
+                userId = Guid.Parse(User.Identity.GetUserId());
+            }
+            catch (System.ArgumentNullException anex)
+            {
+                return null;
+            }
             var songService = new SongService(userId);
             return songService;
         }
@@ -29,6 +37,8 @@ namespace WikiConcert.Controllers
                 return BadRequest(ModelState);
 
             var service = CreateSongService();
+            if (service == null)
+                return Unauthorized();
 
             if (!service.CreateSong(song))
                 return InternalServerError();
@@ -40,6 +50,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult Get()
         {
             SongService songService = CreateSongService();
+            if (songService == null)
+                return Unauthorized();
             var songs = songService.GetAllSongs();
             return Ok(songs);
         }
@@ -48,6 +60,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult GetSongById([FromUri]int id)
         {
             SongService songService = CreateSongService();
+            if (songService == null)
+                return Unauthorized();
             var songs = songService.GetSongById(id);
             return Ok(songs);
         }
@@ -56,6 +70,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult GetSongByName([FromUri]string name)
         {
             SongService songService = CreateSongService();
+            if (songService == null)
+                return Unauthorized();
             var songs = songService.GetSongByName(name);
             return Ok(songs);
         }
@@ -64,6 +80,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult GetSongByArtist([FromUri]string name)
         {
             SongService songService = CreateSongService();
+            if (songService == null)
+                return Unauthorized();
             var songs = songService.GetSongByArtist(name);
             return Ok(songs);
         }
@@ -72,6 +90,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult GetSongByLyrics([FromUri]string lyric)
         {
             SongService songService = CreateSongService();
+            if (songService == null)
+                return Unauthorized();
             var songs = songService.GetSongByLyrics(lyric);
             return Ok(songs);
         }
@@ -89,6 +109,8 @@ namespace WikiConcert.Controllers
                 return BadRequest(ModelState);
 
             SongService service = CreateSongService();
+            if (service == null)
+                return Unauthorized();
 
             if (service.UpdateSong(song))
                 return Ok($"Successfully updated {song.Name}.");
@@ -100,6 +122,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult Delete(int id)
         {
             var service = CreateSongService();
+            if (service == null)
+                return Unauthorized();
 
             if (!service.DeleteSong(id))
                 return InternalServerError();

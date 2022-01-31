@@ -14,7 +14,15 @@ namespace WikiConcert.Controllers
     {
         private SetlistService CreateSetlistService()
         {
-            var userId = Guid.Parse(User.Identity.GetUserId());
+            Guid userId;
+            try
+            {
+                userId = Guid.Parse(User.Identity.GetUserId());
+            }
+            catch (System.ArgumentNullException anex)
+            {
+                return null;
+            }
             var setlistService = new SetlistService(userId);
             return setlistService;
         }
@@ -22,6 +30,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult Get()
         {
             SetlistService service = CreateSetlistService();
+            if (service == null)
+                return Unauthorized();
             var setlists = service.GetAllSetLists();
             return Ok(setlists);
         }
@@ -29,6 +39,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult Get(int id)
         {
             SetlistService service = CreateSetlistService();
+            if (service == null)
+                return Unauthorized();
             var setlists = service.GetSetlistByConcertId(id);
             return Ok(setlists);
         }
@@ -41,6 +53,8 @@ namespace WikiConcert.Controllers
                 return BadRequest(ModelState);
 
             var service = CreateSetlistService();
+            if (service == null)
+                return Unauthorized();
 
             if (service.AddSongToSetlist(setlist))
                 return Ok($"Successfully added setlist.");
@@ -68,6 +82,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult SetlistDelete(int id)
         {
             var service = CreateSetlistService();
+            if (service == null)
+                return Unauthorized();
 
             if (service.DeleteSetlist(id))
                 return Ok("Successfully deleted setlist.");
@@ -79,6 +95,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult SetlistItemDelete(int id)
         {
             var service = CreateSetlistService();
+            if (service == null)
+                return Unauthorized();
 
             if (service.DeleteSetlistItem(id))
                 return Ok("Successfully deleted setlist.");

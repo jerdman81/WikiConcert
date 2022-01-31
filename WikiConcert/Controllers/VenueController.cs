@@ -17,7 +17,15 @@ namespace WikiConcert.Controllers
     {
         private VenueService CreateVenueService()
         {
-            var userId = Guid.Parse(User.Identity.GetUserId());
+            Guid userId;
+            try
+            {
+                userId = Guid.Parse(User.Identity.GetUserId());
+            }
+            catch (System.ArgumentNullException anex)
+            {
+                return null;
+            }
             var venueService = new VenueService(userId);
             return venueService;
         }
@@ -32,6 +40,8 @@ namespace WikiConcert.Controllers
                 return BadRequest(ModelState);
 
             var service = CreateVenueService();
+            if (service == null)
+                return Unauthorized();
 
             if (!service.CreateVenue(venue))
                 return InternalServerError();
@@ -43,6 +53,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult Get()
         {
             VenueService venueService = CreateVenueService();
+            if (venueService == null)
+                return Unauthorized();
             var venues = venueService.GetVenues();
             return Ok(venues);
         }
@@ -51,6 +63,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult Get([FromUri] int id)
         {
             VenueService venueService = CreateVenueService();
+            if (venueService == null)
+                return Unauthorized();
             var venue = venueService.GetVenueByID(id);
 
             if (venue != null)
@@ -73,6 +87,8 @@ namespace WikiConcert.Controllers
                 return BadRequest(ModelState);
 
             var service = CreateVenueService();
+            if (service == null)
+                return Unauthorized();
 
             if (!service.EditVenue(venue))
                 return InternalServerError();
@@ -84,6 +100,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult Delete([FromUri] int id)
         {
             var service = CreateVenueService();
+            if (service == null)
+                return Unauthorized();
 
             if (!service.DeleteVenue(id))
                 return InternalServerError();
@@ -95,6 +113,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult GetOperationalVenues()
         {
             VenueService venueService = CreateVenueService();
+            if (venueService == null)
+                return Unauthorized();
             var venue = venueService.GetVenuesByOperatingStatus(true);
             return Ok(venue);
         }
@@ -103,6 +123,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult GetNonOperationalVenues()
         {
             VenueService venueService = CreateVenueService();
+            if (venueService == null)
+                return Unauthorized();
             var venue = venueService.GetVenuesByOperatingStatus(false);
             return Ok(venue);
         }
@@ -111,6 +133,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult GetByState([FromUri] States state)
         {
             VenueService venueService = CreateVenueService();
+            if (venueService == null)
+                return Unauthorized();
             var venue = venueService.GetVenuesByState(state);
             return Ok(venue);
         }
@@ -122,6 +146,8 @@ namespace WikiConcert.Controllers
                 return BadRequest("Your paramaters cannot be empty.");
 
             VenueService venueService = CreateVenueService();
+            if (venueService == null)
+                return Unauthorized();
             var venue = venueService.GetVenuesByCity(city);
             return Ok(venue);
         }
@@ -133,6 +159,8 @@ namespace WikiConcert.Controllers
                 return BadRequest("Your paramaters cannot be empty.");
 
             VenueService venueService = CreateVenueService();
+            if (venueService == null)
+                return Unauthorized();
             var venue = venueService.GetVenuesByName(name);
             return Ok(venue);
         }
@@ -141,6 +169,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult GetByCapacityGreaterThan([FromUri] int capacity)
         {
             VenueService venueService = CreateVenueService();
+            if (venueService == null)
+                return Unauthorized();
             var venue = venueService.GetVenuesByCapacity(capacity, 'g');
             return Ok(venue);
         }
@@ -149,6 +179,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult GetByCapacityLessThan([FromUri] int capacity)
         {
             VenueService venueService = CreateVenueService();
+            if (venueService == null)
+                return Unauthorized();
             var venue = venueService.GetVenuesByCapacity(capacity, 'l');
             return Ok(venue);
         }
@@ -157,6 +189,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult GetByCapacityEqualTo([FromUri]int capacity)
         {
             VenueService venueService = CreateVenueService();
+            if (venueService == null)
+                return Unauthorized();
             var venue = venueService.GetVenuesByCapacity(capacity, 'e');
             return Ok(venue);
         }

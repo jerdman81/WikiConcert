@@ -14,7 +14,15 @@ namespace WikiConcert.Controllers
     {
         private ConcertService CreateConcertService()
         {
-            var userId = Guid.Parse(User.Identity.GetUserId());
+            Guid userId;
+            try
+            {
+                userId = Guid.Parse(User.Identity.GetUserId());
+            }
+            catch (System.ArgumentNullException anex)
+            {
+                return null;
+            }
             var concertService = new ConcertService(userId);
             return concertService;
         }
@@ -25,6 +33,8 @@ namespace WikiConcert.Controllers
                 return BadRequest(ModelState);
 
             var service = CreateConcertService();
+            if (service == null)
+                return Unauthorized();
 
             if (!service.CreateConcert(concert))
                 return InternalServerError();
@@ -35,6 +45,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult Get()
         {
             ConcertService concertService = CreateConcertService();
+            if (concertService == null)
+                return Unauthorized();
             var concerts = concertService.GetConcerts();
             return Ok(concerts);
         }
@@ -42,6 +54,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult GetByConcertId(int id)
         {
             ConcertService concertService = CreateConcertService();
+            if (concertService == null)
+                return Unauthorized();
             var concerts = concertService.GetConcertById(id);
             return Ok(concerts);
         }
@@ -49,6 +63,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult GetByVenueId(int venueId)
         {
             ConcertService concertService = CreateConcertService();
+            if (concertService == null)
+                return Unauthorized();
             var concerts = concertService.GetConcertByVenueId(venueId);
             return Ok(concerts);
         }
@@ -56,6 +72,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult GetByDate(DateTimeOffset concertDate)
         {
             ConcertService concertService = CreateConcertService();
+            if (concertService == null)
+                return Unauthorized();
             var concerts = concertService.GetConcertByDate(concertDate);
             return Ok(concerts);
         }
@@ -63,18 +81,20 @@ namespace WikiConcert.Controllers
         public IHttpActionResult GetByBand(int id)
         {
             ConcertService concertService = CreateConcertService();
+            if (concertService == null)
+                return Unauthorized();
             var concerts = concertService.GetConcertByBandId(id);
             return Ok(concerts);
         }
-        /*
         [HttpGet, ActionName("GetBySong")]
         public IHttpActionResult GetBySong(int id)
         {
             ConcertService concertService = CreateConcertService();
+            if (concertService == null)
+                return Unauthorized();
             var concerts = concertService.GetConcertBySong(id);
             return Ok(concerts);
         }
-        */
         [HttpPut]
         public IHttpActionResult Put(ConcertEdit concert)
         {
@@ -82,6 +102,8 @@ namespace WikiConcert.Controllers
                 return BadRequest(ModelState);
 
             var service = CreateConcertService();
+            if (service == null)
+                return Unauthorized();
 
             if (!service.EditConcert(concert))
                 return InternalServerError();
@@ -93,6 +115,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult Delete(int id)
         {
             var service = CreateConcertService();
+            if (service == null)
+                return Unauthorized();
 
             if (!service.DeleteConcert(id))
                 return InternalServerError();
