@@ -40,7 +40,8 @@ namespace WikiConcert.Services
                 return ctx.SaveChanges() == 1;
             }
         }
-
+        //Method changed to use ConcertId as key and list Concert ID as well as name.
+        /*
         public IEnumerable<SetlistListItem> GetAllSetLists()
         {
             using (var ctx = new ApplicationDbContext())
@@ -60,6 +61,27 @@ namespace WikiConcert.Services
                 return setList;
             }
         }
+        */
+        public IEnumerable<SetlistListItem> GetAllSetLists()
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                List<SetlistListItem> setList = new List<SetlistListItem>();
+                var query = ctx.Setlists.Include("Concert").AsEnumerable().GroupBy(s => s.Concert.ConcertId);
+                foreach (var group in query)
+                {
+                    setList.Add(new SetlistListItem
+                    {
+                        SetlistItemIds = group.Select(s => s.SetlistId).ToList(),
+                        ConcertId = group.Key,
+                        ConcertName = group.Select(c => c.Concert.ConcertName).FirstOrDefault(),
+                        SongCount = group.Count()
+                    });
+                }
+
+                return setList;
+            }
+        }
 
         public SetlistDetail GetSetlistByConcertId(int concertId)
         {
@@ -74,9 +96,12 @@ namespace WikiConcert.Services
                 {
                     return null;
                 }
+                if (sets == null)
+                    return null;
+
                 return new SetlistDetail
                 {
-                    SetlistIds = sets.Select(s => s.SetlistId).ToList(),
+                    SetlistItemIds = sets.Select(s => s.SetlistId).ToList(),
                     ConcertId = sets.First().ConcertId,
                     ConcertName = sets.First().Concert.ConcertName,
                     SongIds = sets.Select(s => s.SongId).ToList(),
