@@ -79,7 +79,7 @@ namespace WikiConcert.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var query = ctx.Bands.Where(b => b.Name == name).Select(b => new BandListItem
+                var query = ctx.Bands.Where(b => b.Name.ToLower().Contains(name.ToLower())).Select(b => new BandListItem
                 {
                     BandId = b.BandId,
                     Name = b.Name,
@@ -95,7 +95,7 @@ namespace WikiConcert.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var query = ctx.Bands.Where(b => b.Genre == genre).Select(b => new BandListItem
+                var query = ctx.Bands.Where(b => b.Genre.ToLower().Contains(genre.ToLower())).Select(b => new BandListItem
                 {
                     BandId = b.BandId,
                     Name = b.Name,
