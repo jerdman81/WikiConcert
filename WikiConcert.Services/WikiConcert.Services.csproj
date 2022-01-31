@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttendanceService.cs" />
     <Compile Include="BandService.cs" />
     <Compile Include="ConcertService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

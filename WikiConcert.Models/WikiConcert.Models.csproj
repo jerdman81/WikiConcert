@@ -57,6 +57,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttendanceAdd.cs" />
+    <Compile Include="AttendanceListItem.cs" />
     <Compile Include="BandCreate.cs" />
     <Compile Include="BandDetail.cs" />
     <Compile Include="BandListItem.cs" />

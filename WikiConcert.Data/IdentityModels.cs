@@ -42,7 +42,7 @@ namespace WikiConcert.Data
         public DbSet<Song> Songs { get; set; }
         public DbSet<Venue> Venues { get; set; }
         public DbSet<Setlist> Setlists { get; set; }
-        // public DbSet<Attendance> Attendance { get; set; }
+        public DbSet<Attendance> Attendancelist { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
