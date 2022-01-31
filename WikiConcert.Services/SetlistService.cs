@@ -37,7 +37,7 @@ namespace WikiConcert.Services
                 {
                     ctx.Setlists.Add(item);
                 }
-                return ctx.SaveChanges() == 1;
+                return ctx.SaveChanges() == setlistItems.Count;
             }
         }
         //Method changed to use ConcertId as key and list Concert ID as well as name.
@@ -166,7 +166,7 @@ namespace WikiConcert.Services
                     ctx.Setlists.Remove(item);
                 }
 
-                return ctx.SaveChanges() == 1;
+                return ctx.SaveChanges() == setlistItems.Count;
             }
         }
     }
