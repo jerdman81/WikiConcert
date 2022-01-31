@@ -96,7 +96,7 @@ namespace WikiConcert.Services
                 {
                     return null;
                 }
-                if (sets == null)
+                if (sets.Count()<1)
                     return null;
 
                 return new SetlistDetail
