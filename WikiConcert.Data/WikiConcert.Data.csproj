@@ -87,6 +87,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attendance.cs" />
     <Compile Include="Band.cs" />
     <Compile Include="Concert.cs" />
     <Compile Include="Enums\States.cs" />
