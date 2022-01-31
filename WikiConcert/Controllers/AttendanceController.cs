@@ -14,7 +14,15 @@ namespace WikiConcert.Controllers
     {
         private AttendanceService CreateService()
         {
-            var userId = Guid.Parse(User.Identity.GetUserId());
+            Guid userId;
+            try
+            {
+                userId = Guid.Parse(User.Identity.GetUserId());
+            }
+            catch (System.ArgumentNullException anex)
+            {
+                return null;
+            }
             var service = new AttendanceService(userId);
             return service;
         }
@@ -23,12 +31,16 @@ namespace WikiConcert.Controllers
         public IHttpActionResult Get()
         {
             var service = CreateService();
+            if(service == null)
+                return Unauthorized();
             return Ok(service.GetAttendance());
         }
         [HttpPost]
         public IHttpActionResult Post(AttendanceAdd attend)
         {
             var service = CreateService();
+            if (service == null)
+                return Unauthorized();
             if (service.AddAttendance(attend))
                 return Ok("Successfully logged attendance.");
             return InternalServerError();
@@ -37,6 +49,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult Delete(int attendId)
         {
             var service = CreateService();
+            if (service == null)
+                return Unauthorized();
             if (service.RemoveAttendance(attendId))
                 return Ok("Successfully removed attendance.");
             return InternalServerError();
@@ -45,6 +59,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult DeleteByConcert(int concertId)
         {
             var service = CreateService();
+            if (service == null)
+                return Unauthorized();
             if (service.RemoveAttendanceByConcert(concertId))
                 return Ok("Successfully removed attendance.");
             return InternalServerError();
