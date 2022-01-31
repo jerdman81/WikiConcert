@@ -144,29 +144,23 @@ namespace WikiConcert.Services
                 return entity.ToList();
             }
         }
-        /*
+        
         public IEnumerable<ConcertDetail> GetConcertBySong(int id)
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var entity = ctx.Concerts
-                    .Where(c => c.Setlist.SongIds.Contains(id))
-                    .Select(c => new ConcertDetail
-                    {
-                        ConcertId = c.ConcertId,
-                        ConcertName = c.ConcertName,
-                        BandId = c.BandId,
-                        ConcertDate = c.ConcertDate,
-                        VenueId = c.VenueId,
-                        SetlistId = c.SetlistId,
-                        CreatedUtc = c.CreatedUtc,
-                        ModifiedUtc = c.ModifiedUtc
-                    });
+                List<int> concertIds = ctx.Setlists.Where(s => s.SongId == id).Select(s => s.ConcertId).ToList();
+                List<ConcertDetail> concerts = new List<ConcertDetail>();
 
-                return entity.ToList();
+                foreach (int cId in concertIds)
+                {
+                    concerts.Add(GetConcertById(cId));
+                }
+
+                return concerts;
             }
         }
-        */
+        
         public bool EditConcert(ConcertEdit model)
         {
             using (var ctx = new ApplicationDbContext())
