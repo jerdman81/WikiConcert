@@ -131,7 +131,7 @@ namespace WikiConcert.Services
             {
                 var entity =
                     ctx
-                    .Concerts.Where(c => c.ConcertDate == concertDate)
+                    .Concerts.Where(c => c.ConcertDate.Date == concertDate.Date)
                     .Select(c => new ConcertListItem
                     {
                         ConcertId = c.ConcertId,
