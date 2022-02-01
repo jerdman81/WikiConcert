@@ -61,7 +61,7 @@ namespace WikiConcert.Services
                 }
                 catch (Exception e)
                 {
-                    return null;
+                    throw;
                 }
                 return new BandDetail
                 {
@@ -134,7 +134,7 @@ namespace WikiConcert.Services
                 }
                 catch (Exception ex)
                 {
-                    return false;
+                    throw;
                 }
                 entity.Name = model.Name;
                 entity.Genre = model.Genre;
@@ -156,7 +156,7 @@ namespace WikiConcert.Services
                 }
                 catch (Exception ex)
                 {
-                    return false;
+                    throw;
                 }
 
                 ctx.Bands.Remove(entity);

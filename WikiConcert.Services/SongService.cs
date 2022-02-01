@@ -60,9 +60,9 @@ namespace WikiConcert.Services
                 {
                     query = ctx.Songs.Single(s => s.SongId == id);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    return (null);
+                    throw;
                 };
                 return new SongDetail
                 {
@@ -136,9 +136,9 @@ namespace WikiConcert.Services
                 {
                     entity = ctx.Songs.Single(s => s.SongId == model.SongId);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    return false;
+                    throw;
                 };
 
                 entity.Name = model.Name;
@@ -160,9 +160,9 @@ namespace WikiConcert.Services
                 {
                     entity = ctx.Songs.Single(s => s.SongId == id);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    return false;
+                    throw;
                 };
                 ctx.Songs.Remove(entity);
 

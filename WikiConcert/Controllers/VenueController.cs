@@ -65,35 +65,50 @@ namespace WikiConcert.Controllers
             VenueService venueService = CreateVenueService();
             if (venueService == null)
                 return Unauthorized();
-            var venue = venueService.GetVenueByID(id);
+            VenueDetail venue;
+            try
+            {
+            venue = venueService.GetVenueByID(id);
+
+            }
+            catch (InvalidOperationException)
+            {
+                return BadRequest("Target venue ID not found.");
+            }
 
             if (venue != null)
             {
                 return Ok(venue);
             }
-            return NotFound();
+            return InternalServerError();
         }
 
         [HttpPut]
-        public IHttpActionResult Put([FromUri] int id, [FromBody] VenueEdit venue)
+        public IHttpActionResult Put(/*[FromUri] int id, */[FromBody] VenueEdit venue)
         {
             if (venue is null)
                 return BadRequest("Your model cannot be empty.");
-
+            /*  I don't think this check is necessary. ~PT
             if (id != venue.VenueId)
                 return BadRequest("Ids do not match");
-
+            */
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var service = CreateVenueService();
             if (service == null)
                 return Unauthorized();
+            try
+            {
+                if (!service.EditVenue(venue))
+                    return InternalServerError();
+            }
+            catch (InvalidOperationException)
+            {
+                return BadRequest("Target venue not found.");
+            }
 
-            if (!service.EditVenue(venue))
-                return InternalServerError();
-
-            return Ok($"Successfully updated {venue}.");
+            return Ok($"Successfully updated Venue {venue.VenueId}.");
         }
 
         [HttpDelete]
@@ -102,23 +117,29 @@ namespace WikiConcert.Controllers
             var service = CreateVenueService();
             if (service == null)
                 return Unauthorized();
-
-            if (!service.DeleteVenue(id))
-                return InternalServerError();
+            try
+            {
+                if (!service.DeleteVenue(id))
+                    return InternalServerError();
+            }
+            catch (InvalidOperationException)
+            {
+                return BadRequest("Target venue not found.");
+            }
 
             return Ok($"Successfully deleted venue {id}.");
         }
 
-        [HttpGet, ActionName("isActive")]
-        public IHttpActionResult GetOperationalVenues()
+        [HttpGet, ActionName("IsActive")]
+        public IHttpActionResult GetOperationalVenues(bool isActive)
         {
             VenueService venueService = CreateVenueService();
             if (venueService == null)
                 return Unauthorized();
-            var venue = venueService.GetVenuesByOperatingStatus(true);
+            var venue = venueService.GetVenuesByOperatingStatus(isActive);
             return Ok(venue);
         }
-
+        /*  I have found this to be redundant. ~PT
         [HttpGet, ActionName("notActive")]
         public IHttpActionResult GetNonOperationalVenues()
         {
@@ -128,7 +149,7 @@ namespace WikiConcert.Controllers
             var venue = venueService.GetVenuesByOperatingStatus(false);
             return Ok(venue);
         }
-
+        */
         [HttpGet, ActionName("State")]
         public IHttpActionResult GetByState([FromUri] States state)
         {
