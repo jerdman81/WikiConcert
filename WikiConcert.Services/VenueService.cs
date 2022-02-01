@@ -82,9 +82,9 @@ namespace WikiConcert.Services
                         .Venues
                         .Single(e => e.VenueId == id);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    return (null);
+                    throw;
                 };
                 return
                     new VenueDetail
@@ -117,9 +117,9 @@ namespace WikiConcert.Services
                         .Single(v => v.VenueId == model.VenueId);
 
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    return (false);
+                    throw;
                 };
                 
                 entity.Name = model.Name;
@@ -149,9 +149,9 @@ namespace WikiConcert.Services
                         .Venues
                         .Single(v => v.VenueId == venueId);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    return (false);
+                    throw;
                 }
 
                 ctx.Venues.Remove(entity);
@@ -182,7 +182,7 @@ namespace WikiConcert.Services
                         OperatingStatus = v.IsOperating,
                         CreatedUtc = v.CreatedUtc,
                         ModifiedUtc = v.ModifiedUtc
-            });
+                    });
                 return query.ToList();
             }
         }

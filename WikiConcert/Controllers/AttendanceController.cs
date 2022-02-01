@@ -41,8 +41,15 @@ namespace WikiConcert.Controllers
             var service = CreateService();
             if (service == null)
                 return Unauthorized();
-            if (service.AddAttendance(attend))
-                return Ok("Successfully logged attendance.");
+            try
+            {
+                if (service.AddAttendance(attend))
+                    return Ok("Successfully logged attendance.");
+            }
+            catch(Exception)
+            {
+                return BadRequest("Invalid concert ID.");
+            }
             return InternalServerError();
         }
         [HttpDelete]
@@ -51,8 +58,15 @@ namespace WikiConcert.Controllers
             var service = CreateService();
             if (service == null)
                 return Unauthorized();
-            if (service.RemoveAttendance(attendId))
-                return Ok("Successfully removed attendance.");
+            try
+            {
+                if (service.RemoveAttendance(attendId))
+                    return Ok("Successfully removed attendance.");
+            }
+            catch
+            {
+                return BadRequest("Target attendance record not found.");
+            }
             return InternalServerError();
         }
         [HttpDelete, ActionName("DeleteByConcert")]
@@ -61,8 +75,15 @@ namespace WikiConcert.Controllers
             var service = CreateService();
             if (service == null)
                 return Unauthorized();
-            if (service.RemoveAttendanceByConcert(concertId))
-                return Ok("Successfully removed attendance.");
+            try
+            {
+                if (service.RemoveAttendanceByConcert(concertId))
+                    return Ok("Successfully removed attendance.");
+            }
+            catch
+            {
+                return BadRequest("Target attendance record not found.");
+            }
             return InternalServerError();
         }
     }

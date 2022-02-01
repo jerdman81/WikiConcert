@@ -35,14 +35,23 @@ namespace WikiConcert.Controllers
             var setlists = service.GetAllSetLists();
             return Ok(setlists);
         }
+        //Searches by Concert ID
         [HttpGet]
         public IHttpActionResult Get(int id)
         {
             SetlistService service = CreateSetlistService();
             if (service == null)
                 return Unauthorized();
-            var setlists = service.GetSetlistByConcertId(id);
-            return Ok(setlists);
+            SetlistDetail setlist;
+            try
+            {
+                setlist = service.GetSetlistByConcertId(id);
+            }
+            catch (InvalidOperationException)
+            {
+                return BadRequest("Target id not found.");
+            }
+            return Ok(setlist);
         }
         [HttpPost]
         public IHttpActionResult Post(SetlistCreate setlist)
@@ -55,9 +64,15 @@ namespace WikiConcert.Controllers
             var service = CreateSetlistService();
             if (service == null)
                 return Unauthorized();
-
-            if (service.AddSongToSetlist(setlist))
-                return Ok($"Successfully added setlist.");
+            try
+            {
+                if (service.AddSongToSetlist(setlist))
+                    return Ok($"Successfully added setlist.");
+            }
+            catch(Exception)
+            {
+                return BadRequest("One or more ID's are invalid.");
+            }
 
             return InternalServerError();
         }
@@ -84,9 +99,15 @@ namespace WikiConcert.Controllers
             var service = CreateSetlistService();
             if (service == null)
                 return Unauthorized();
-
-            if (service.DeleteSetlist(id))
-                return Ok("Successfully deleted setlist.");
+            try
+            {
+                if (service.DeleteSetlist(id))
+                    return Ok("Successfully deleted setlist.");
+            }
+            catch(InvalidOperationException)
+            {
+                return BadRequest("Target setlist not found.");
+            }
 
             return InternalServerError();
         }
@@ -98,8 +119,15 @@ namespace WikiConcert.Controllers
             if (service == null)
                 return Unauthorized();
 
-            if (service.DeleteSetlistItem(id))
-                return Ok("Successfully deleted setlist.");
+            try
+            {
+                if (service.DeleteSetlistItem(id))
+                    return Ok("Successfully deleted setlist.");
+            }
+            catch (InvalidOperationException)
+            {
+                return BadRequest("Target setlist item not found.");
+            }
 
             return InternalServerError();
         }

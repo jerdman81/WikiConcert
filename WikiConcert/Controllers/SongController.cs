@@ -62,8 +62,16 @@ namespace WikiConcert.Controllers
             SongService songService = CreateSongService();
             if (songService == null)
                 return Unauthorized();
-            var songs = songService.GetSongById(id);
-            return Ok(songs);
+            SongDetail song;
+            try
+            {
+                song = songService.GetSongById(id);
+            }
+            catch (InvalidOperationException)
+            {
+                return BadRequest("Target song ID not found.");
+            }
+            return Ok(song);
         }
 
         [HttpGet]
@@ -97,13 +105,15 @@ namespace WikiConcert.Controllers
         }
 
         [HttpPut]
-        public IHttpActionResult UpdateSong([FromUri] int id, [FromBody]SongUpdate song)
+        public IHttpActionResult UpdateSong([FromBody]SongUpdate song)
         {
             if (song == null)
                 return BadRequest("Your model cannot be empty.");
-
+            // I don't think this is necesary ~PT
+            /*
             if (id != song.SongId)
                 return BadRequest("Ids do not match.");
+            */
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -111,9 +121,15 @@ namespace WikiConcert.Controllers
             SongService service = CreateSongService();
             if (service == null)
                 return Unauthorized();
-
-            if (service.UpdateSong(song))
-                return Ok($"Successfully updated {song.Name}.");
+            try
+            {
+                if (service.UpdateSong(song))
+                    return Ok($"Successfully updated {song.Name}.");
+            }
+            catch (InvalidOperationException)
+            {
+                return BadRequest("Target song not found.");
+            }
 
             return InternalServerError();
         }
@@ -125,8 +141,15 @@ namespace WikiConcert.Controllers
             if (service == null)
                 return Unauthorized();
 
-            if (!service.DeleteSong(id))
-                return InternalServerError();
+            try
+            {
+                if (!service.DeleteSong(id))
+                    return InternalServerError();
+            }
+            catch (InvalidOperationException)
+            {
+                return BadRequest("Target song not found.");
+            }
 
             return Ok($"Successfully deleted song {id}.");
 

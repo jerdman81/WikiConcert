@@ -73,7 +73,7 @@ namespace WikiConcert.Services
                 }
                 catch (Exception ex)
                 {
-                    return null;
+                    throw;
                 }
                 return
                     new ConcertDetail
@@ -178,7 +178,7 @@ namespace WikiConcert.Services
                 }
                 catch (Exception ex)
                 {
-                    return false;
+                    throw;
                 }
 
                 entity.ConcertId = model.ConcertId;
@@ -206,7 +206,7 @@ namespace WikiConcert.Services
                 }
                 catch (Exception ex)
                 {
-                    return false;
+                    throw;
                 }
 
                 ctx.Concerts.Remove(entity);

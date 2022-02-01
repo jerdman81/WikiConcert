@@ -56,8 +56,16 @@ namespace WikiConcert.Controllers
             ConcertService concertService = CreateConcertService();
             if (concertService == null)
                 return Unauthorized();
-            var concerts = concertService.GetConcertById(id);
-            return Ok(concerts);
+            ConcertDetail concert;
+            try
+            {
+                concert = concertService.GetConcertById(id);
+            }
+            catch (InvalidOperationException e)
+            {
+                return BadRequest("Target concert id not found.");
+            }
+            return Ok(concert);
         }
         [HttpGet]
         public IHttpActionResult GetByVenueId(int venueId)
@@ -104,9 +112,15 @@ namespace WikiConcert.Controllers
             var service = CreateConcertService();
             if (service == null)
                 return Unauthorized();
-
-            if (!service.EditConcert(concert))
-                return InternalServerError();
+            try
+            {
+                if (!service.EditConcert(concert))
+                    return InternalServerError();
+            }
+            catch (InvalidOperationException e)
+            {
+                return BadRequest("Target concert was not found.");
+            }
 
             return Ok();
         }
@@ -118,8 +132,15 @@ namespace WikiConcert.Controllers
             if (service == null)
                 return Unauthorized();
 
-            if (!service.DeleteConcert(id))
-                return InternalServerError();
+            try
+            {
+                if (!service.DeleteConcert(id))
+                    return InternalServerError();
+            }
+            catch (InvalidOperationException e)
+            {
+                return BadRequest("Target concert was not found.");
+            }
 
             return Ok();
         }

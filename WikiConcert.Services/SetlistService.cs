@@ -37,7 +37,14 @@ namespace WikiConcert.Services
                 {
                     ctx.Setlists.Add(item);
                 }
-                return ctx.SaveChanges() == setlistItems.Count;
+                try
+                {
+                    return ctx.SaveChanges() == setlistItems.Count;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
             }
         }
         //Method changed to use ConcertId as key and list Concert ID as well as name.
@@ -92,21 +99,25 @@ namespace WikiConcert.Services
                 {
                     sets = ctx.Setlists.Include("Song").Where(s => s.ConcertId == concertId);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    return null;
+                    throw;
                 }
-                if (sets.Count()<1)
-                    return null;
-
-                return new SetlistDetail
+                try
                 {
-                    SetlistItemIds = sets.Select(s => s.SetlistId).ToList(),
-                    ConcertId = sets.First().ConcertId,
-                    ConcertName = sets.First().Concert.ConcertName,
-                    SongIds = sets.Select(s => s.SongId).ToList(),
-                    SongsNames = sets.Select(s => s.Song.Name).ToList()
-                };
+                    return new SetlistDetail
+                    {
+                        SetlistItemIds = sets.Select(s => s.SetlistId).ToList(),
+                        ConcertId = sets.First().ConcertId,
+                        ConcertName = sets.First().Concert.ConcertName,
+                        SongIds = sets.Select(s => s.SongId).ToList(),
+                        SongsNames = sets.Select(s => s.Song.Name).ToList()
+                    };
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
             }
         }
         /*
@@ -139,9 +150,9 @@ namespace WikiConcert.Services
                 {
                     entity = ctx.Setlists.Single(s => s.SetlistId == setlistId);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    return false;
+                    throw;
                 }
 
                 ctx.Setlists.Remove(entity);
@@ -159,7 +170,7 @@ namespace WikiConcert.Services
                 setlistItems = ctx.Setlists.Where(s => s.ConcertId == concertId).ToList();
 
                 if (setlistItems.Count == 0)
-                    return false;
+                    throw new InvalidOperationException();
 
                 foreach (Setlist item in setlistItems)
                 {

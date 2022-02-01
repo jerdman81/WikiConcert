@@ -26,8 +26,14 @@ namespace WikiConcert.Services
                     ConcertId = model.ConcertId,
                     GuestId = _userId
                 });
-
-                return ctx.SaveChanges() == 1;
+                try
+                {
+                    return ctx.SaveChanges() == 1;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
             }
         }
 
@@ -58,7 +64,7 @@ namespace WikiConcert.Services
                 }
                 catch (Exception ex)
                 {
-                    return false;
+                    throw;
                 }
                 ctx.Attendancelist.Remove(entity);
 
@@ -77,7 +83,7 @@ namespace WikiConcert.Services
                 }
                 catch (Exception ex)
                 {
-                    return false;
+                    throw;
                 }
                 ctx.Attendancelist.Remove(entity);
 

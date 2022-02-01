@@ -19,7 +19,7 @@ namespace WikiConcert.Models
         [Required]
         public string City { get; set; }
         [Required]
-        [MaxLength(2, ErrorMessage = "Please enter the 2 character state abbreviation."), MinLength(2, ErrorMessage = "Please enter the 2 character state abbreviation.")]
+        //[MaxLength(2, ErrorMessage = "Please enter the 2 character state abbreviation."), MinLength(2, ErrorMessage = "Please enter the 2 character state abbreviation.")]
         public States State { get; set; }
         [Required]
         public int ZipCode { get; set; }
