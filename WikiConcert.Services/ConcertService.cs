@@ -80,6 +80,7 @@ namespace WikiConcert.Services
                     {
                         ConcertId = entity.ConcertId,
                         BandId = entity.BandId,
+                        ConcertName= entity.ConcertName,
                         ConcertDate = entity.ConcertDate,
                         VenueId = entity.VenueId,
                         Setlist = ctx.Setlists.Where(s => s.ConcertId == entity.ConcertId)
