@@ -11,11 +11,12 @@ namespace WikiConcert.Data
     public class Attendance
     {
         [Key]
-        public int AttendanceId { get; set; }
-        [Required, ForeignKey (nameof(Concert))]
+        public int AttendanceId { get; set;}
+        [Required, ForeignKey(nameof(Concert))]
         public int ConcertId { get; set; }
         public Guid GuestId { get; set; }
 
         public virtual Concert Concert { get; set; }
+
     }
 }

@@ -39,8 +39,8 @@ namespace WikiConcert.Services
                     .Select(c => new AttendanceListItem
                     {
                         AttendanceId = c.AttendanceId,
-                        concertId = c.ConcertId,
-                        concertName = c.Concert.ConcertName
+                        ConcertId = c.ConcertId,
+                        ConcertName = c.Concert.ConcertName
                     });
 
                 return attendanceList.ToList();
