@@ -17,8 +17,8 @@ namespace WikiConcert.Data
         [Required]
         [ForeignKey("Band")]
         public int BandId { get; set; }
-        //[Required]
-        public DateTime? ConcertDate { get; set; }
+        [Required]
+        public DateTimeOffset ConcertDate { get; set; }
         [Required]
         [ForeignKey("Venue")]
         public int VenueId { get; set; }        

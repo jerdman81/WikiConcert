@@ -12,7 +12,7 @@ namespace WikiConcert.Models
         public int ConcertId { get; set; }
         public int BandId { get; set; }
         public string ConcertName { get; set;}
-        public DateTime? ConcertDate { get; set; }
+        public DateTimeOffset? ConcertDate { get; set; }
         public int VenueId { get; set; }
     }
 }
