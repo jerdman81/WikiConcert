@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,7 +26,8 @@ namespace WikiConcert.Services
                     ConcertName = model.ConcertName,
                     BandId = model.BandId,
                     VenueId = model.VenueId,
-                    CreatedUtc = DateTimeOffset.Now,
+                    ConcertDate = model.ConcertDate,
+                    CreatedUtc = DateTimeOffset.Now
                     //SetlistId = model.SetlistId
                 };
 
@@ -131,7 +133,7 @@ namespace WikiConcert.Services
             {
                 var entity =
                     ctx
-                    .Concerts.Where(c => c.ConcertDate.Date == concertDate.Date)
+                    .Concerts.Where(c => DbFunctions.TruncateTime(c.ConcertDate) == concertDate.Date)
                     .Select(c => new ConcertListItem
                     {
                         ConcertId = c.ConcertId,
