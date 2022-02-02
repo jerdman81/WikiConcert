@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,11 +11,11 @@ namespace WikiConcert.Services
 {
     public class ConcertService
     {
-        private readonly Guid userId;
+        private readonly Guid _userId;
 
         public ConcertService(Guid userId)
         {
-            userId = userId;
+            _userId = userId;
         }
 
         public bool CreateConcert(ConcertCreate model)
@@ -22,11 +23,12 @@ namespace WikiConcert.Services
             var entity =
                 new Concert()
                 {
-                    ConcertId = model.ConcertId,
+                    ConcertName = model.ConcertName,
                     BandId = model.BandId,
                     VenueId = model.VenueId,
-                    SetlistId = model.SetlistId
-
+                    ConcertDate = model.ConcertDate,
+                    CreatedUtc = DateTimeOffset.Now
+                    //SetlistId = model.SetlistId
                 };
 
             using (var ctx = new ApplicationDbContext())
@@ -36,24 +38,22 @@ namespace WikiConcert.Services
             }
         }
 
-        public IEnumerable<ConcertDetail> GetConcerts()
+        public IEnumerable<ConcertListItem> GetConcerts()
         {
             using(var ctx = new ApplicationDbContext())
             {
                 var query =
-                    ctx
+                ctx
                     .Concerts
                     .Select(
                         e =>
-                        new ConcertDetail
+                        new ConcertListItem
                         {
                             ConcertId = e.ConcertId,
+                            ConcertName = e.ConcertName,
                             BandId = e.BandId,
                             ConcertDate = e.ConcertDate,
-                            VenueId = e.VenueId,
-                            SetlistId = e.SetlistId,
-                            CreatedUtc = e.CreatedUtc,
-                            ModifiedUtc = e.ModifiedUtc
+                            VenueId = e.VenueId
                         });
                 return query.ToArray();
             }
@@ -63,39 +63,130 @@ namespace WikiConcert.Services
         {
             using(var ctx = new ApplicationDbContext())
             {
-                var entity = 
+                Concert entity;
+                try
+                {
+                    entity =
                     ctx
-                    .Concerts
-                    .Single(e => e.ConcertId == id);
+                        .Concerts
+                        .Single(e => e.ConcertId == id);
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
                 return
                     new ConcertDetail
                     {
                         ConcertId = entity.ConcertId,
                         BandId = entity.BandId,
+                        ConcertName= entity.ConcertName,
                         ConcertDate = entity.ConcertDate,
                         VenueId = entity.VenueId,
-                        SetlistId = entity.SetlistId,
+                        Setlist = ctx.Setlists.Where(s => s.ConcertId == entity.ConcertId)
+                            .Select(s => s.Song.Name).ToList(),
                         CreatedUtc = entity.CreatedUtc,
                         ModifiedUtc = entity.ModifiedUtc
                     };
 
             }
         }
-
-        public bool EditConcert(ConcertEdit model)
+        public IEnumerable<ConcertListItem> GetConcertByVenueId(int id)
         {
             using (var ctx = new ApplicationDbContext())
             {
                 var entity =
                     ctx
-                    .Concerts
-                    .Single(C => C.ConcertId == model.ConcertId);
+                    .Concerts.Where(c => c.VenueId == id)
+                    .Select(c => new ConcertListItem
+                    {
+                        ConcertId = c.ConcertId,
+                        ConcertName = c.ConcertName,
+                        BandId = c.BandId,
+                        ConcertDate = c.ConcertDate,
+                        VenueId = c.VenueId
+                    });
+                return entity.ToList();
+            }
+        }
+        public IEnumerable<ConcertListItem> GetConcertByBandId(int id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx
+                    .Concerts.Where(c => c.BandId == id)
+                    .Select(c => new ConcertListItem
+                    {
+                        ConcertId = c.ConcertId,
+                        ConcertName = c.ConcertName,
+                        BandId = c.BandId,
+                        ConcertDate = c.ConcertDate,
+                        VenueId = c.VenueId
+                    });
+
+                return entity.ToList();
+            }
+        }
+        public IEnumerable<ConcertListItem> GetConcertByDate(DateTimeOffset concertDate)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx
+                    .Concerts.Where(c => DbFunctions.TruncateTime(c.ConcertDate) == concertDate.Date)
+                    .Select(c => new ConcertListItem
+                    {
+                        ConcertId = c.ConcertId,
+                        ConcertName = c.ConcertName,
+                        BandId = c.BandId,
+                        ConcertDate = c.ConcertDate,
+                        VenueId = c.VenueId
+                    });
+
+                return entity.ToList();
+            }
+        }
+        
+        public IEnumerable<ConcertDetail> GetConcertBySong(int id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                List<int> concertIds = ctx.Setlists.Where(s => s.SongId == id).Select(s => s.ConcertId).ToList();
+                List<ConcertDetail> concerts = new List<ConcertDetail>();
+
+                foreach (int cId in concertIds)
+                {
+                    concerts.Add(GetConcertById(cId));
+                }
+
+                return concerts;
+            }
+        }
+        
+        public bool EditConcert(ConcertEdit model)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                Concert entity;
+                try
+                {
+                    entity =
+                        ctx
+                        .Concerts
+                        .Single(C => C.ConcertId == model.ConcertId);
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
 
                 entity.ConcertId = model.ConcertId;
+                entity.ConcertName = model.ConcertName;
                 entity.BandId = model.BandId;
                 entity.ConcertDate = model.ConcertDate;
                 entity.VenueId = model.VenueId;
-                entity.SetlistId = model.SetlistId;
+                //entity.SetlistId = model.SetlistId;
 
                 return ctx.SaveChanges() == 1;
             }
@@ -105,10 +196,18 @@ namespace WikiConcert.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var entity = 
-                    ctx
-                    .Concerts
-                    .Single(C => C.ConcertId == concertId);
+                Concert entity;
+                try
+                {
+                    entity = 
+                        ctx
+                        .Concerts
+                        .Single(C => C.ConcertId == concertId);
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
 
                 ctx.Concerts.Remove(entity);
 

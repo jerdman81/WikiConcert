@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WikiConcert.Data;
+using WikiConcert.Data.Enums;
 using WikiConcert.Models;
 
 namespace WikiConcert.Services
@@ -22,13 +23,15 @@ namespace WikiConcert.Services
             var entity =
                 new Venue()
                 {
-                    Name = model.VenueName,
-                    Address = model.VenueAddress,
-                    City = model.VenueCity,
-                    State = model.VenueState,
-                    Capacity = model.VenueCapacity,
-                    AltName = model.VenueAltName,
-                    IsOperating = model.VenueIsOperating
+                    Name = model.Name,
+                    Address = model.Address,
+                    City = model.City,
+                    State = model.State,
+                    ZipCode = model.ZipCode,
+                    Capacity = model.Capacity,
+                    AltName = model.AltName,
+                    IsOperating = model.IsOperating,
+                    CreatedUtc = DateTimeOffset.UtcNow
                 };
 
             using (var ctx = new ApplicationDbContext())
@@ -51,13 +54,14 @@ namespace WikiConcert.Services
                             new VenueDetail
                             {
                                 VenueId = e.VenueId,
-                                VenueName = e.Name,
-                                VenueAddress = e.Address,
-                                VenueCity = e.City,
-                                VenueState = e.State,
-                                VenueCapacity = e.Capacity,
-                                VenueAltName = e.AltName,
-                                VenueOperatingStatus = e.IsOperating,
+                                Name = e.Name,
+                                Address = e.Address,
+                                City = e.City,
+                                State = e.State.ToString(),
+                                ZipCode = e.ZipCode,
+                                Capacity = e.Capacity,
+                                AltName = e.AltName,
+                                OperatingStatus = e.IsOperating,
                                 CreatedUtc = e.CreatedUtc,
                                 ModifiedUtc = e.ModifiedUtc
                             });
@@ -70,21 +74,30 @@ namespace WikiConcert.Services
         {
             using(var ctx = new ApplicationDbContext())
             {
-                var entity =
+                Venue entity;
+                try
+                {
+                    entity =
                     ctx
                         .Venues
                         .Single(e => e.VenueId == id);
+                }
+                catch (Exception)
+                {
+                    throw;
+                };
                 return
                     new VenueDetail
                     {
                         VenueId = entity.VenueId,
-                        VenueName = entity.Name,
-                        VenueAddress = entity.Address,
-                        VenueCity = entity.City,
-                        VenueState = entity.State,
-                        VenueCapacity = entity.Capacity,
-                        VenueAltName = entity.AltName,
-                        VenueOperatingStatus = entity.IsOperating,
+                        Name = entity.Name,
+                        Address = entity.Address,
+                        City = entity.City,
+                        State = entity.State.ToString(),
+                        ZipCode = entity.ZipCode,
+                        Capacity = entity.Capacity,
+                        AltName = entity.AltName,
+                        OperatingStatus = entity.IsOperating,
                         CreatedUtc = entity.CreatedUtc,
                         ModifiedUtc = entity.ModifiedUtc
                     };
@@ -96,19 +109,29 @@ namespace WikiConcert.Services
         {
             using(var ctx = new ApplicationDbContext())
             {
-                var entity =
-                    ctx
+                Venue entity;
+                try
+                {
+                    entity = ctx
                         .Venues
                         .Single(v => v.VenueId == model.VenueId);
 
-                entity.Name = model.VenueName;
-                entity.Address = model.VenueAddress;
-                entity.City = model.VenueCity;
-                entity.State = model.VenueState;
-                entity.Capacity = model.VenueCapacity;
-                entity.AltName = model.VenueAltName;
-                entity.IsOperating = model.VenueOperatingStatus;
-
+                }
+                catch (Exception)
+                {
+                    throw;
+                };
+                
+                entity.Name = model.Name;
+                entity.Address = model.Address;
+                entity.City = model.City;
+                entity.State = model.State;
+                entity.ZipCode = model.ZipCode;
+                entity.Capacity = model.Capacity;
+                entity.AltName = model.AltName;
+                entity.IsOperating = model.OperatingStatus;
+                entity.ModifiedUtc = DateTimeOffset.UtcNow;
+                
                 return ctx.SaveChanges() == 1;
             }
         }
@@ -118,14 +141,206 @@ namespace WikiConcert.Services
         {
             using(var ctx = new ApplicationDbContext())
             {
-                var entity =
+                Venue entity;
+                try
+                {
+                    entity =
                     ctx
                         .Venues
                         .Single(v => v.VenueId == venueId);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
 
                 ctx.Venues.Remove(entity);
 
                 return ctx.SaveChanges() == 1;
+            }
+        }
+
+        // Venue Read by Operating Status
+        public IEnumerable<VenueDetail> GetVenuesByOperatingStatus(bool operatingStatus)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query =
+                ctx
+                    .Venues
+                    .Where(v => v.IsOperating == operatingStatus)
+                    .Select(v => new VenueDetail
+                    {
+                        VenueId = v.VenueId,
+                        Name = v.Name,
+                        Address = v.Address,
+                        City = v.City,
+                        State = v.State.ToString(),
+                        ZipCode = v.ZipCode,
+                        Capacity = v.Capacity,
+                        AltName = v.AltName,
+                        OperatingStatus = v.IsOperating,
+                        CreatedUtc = v.CreatedUtc,
+                        ModifiedUtc = v.ModifiedUtc
+                    });
+                return query.ToList();
+            }
+        }
+
+        // Venue Read by State
+        public IEnumerable<VenueDetail> GetVenuesByState(States state)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query =
+                ctx
+                    .Venues
+                    .Where(v => v.State == state)
+                    .Select(v => new VenueDetail
+                    {
+                        VenueId = v.VenueId,
+                        Name = v.Name,
+                        Address = v.Address,
+                        City = v.City,
+                        State = v.State.ToString(),
+                        ZipCode = v.ZipCode,
+                        Capacity = v.Capacity,
+                        AltName = v.AltName,
+                        OperatingStatus = v.IsOperating,
+                        CreatedUtc = v.CreatedUtc,
+                        ModifiedUtc = v.ModifiedUtc
+                    });
+                return query.ToList();
+            }
+        }
+
+        // Venue Read by City
+        public IEnumerable<VenueDetail> GetVenuesByCity(string city)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query =
+                ctx
+                    .Venues
+                    .Where(v => v.City.ToLower() == city.ToLower())
+                    .Select(v => new VenueDetail
+                    {
+                        VenueId = v.VenueId,
+                        Name = v.Name,
+                        Address = v.Address,
+                        City = v.City,
+                        State = v.State.ToString(),
+                        ZipCode= v.ZipCode,
+                        Capacity = v.Capacity,
+                        AltName = v.AltName,
+                        OperatingStatus = v.IsOperating,
+                        CreatedUtc = v.CreatedUtc,
+                        ModifiedUtc = v.ModifiedUtc
+                    });
+                return query.ToList();
+            }
+        }
+
+        // Venue Read by Name
+        public IEnumerable<VenueDetail> GetVenuesByName(string name)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query =
+                ctx
+                    .Venues
+                    .Where(v => v.Name.ToLower() == name.ToLower())
+                    .Select(v => new VenueDetail
+                    {
+                        VenueId = v.VenueId,
+                        Name = v.Name,
+                        Address = v.Address,
+                        City = v.City,
+                        State = v.State.ToString(),
+                        ZipCode = v.ZipCode,
+                        Capacity = v.Capacity,
+                        AltName = v.AltName,
+                        OperatingStatus = v.IsOperating,
+                        CreatedUtc = v.CreatedUtc,
+                        ModifiedUtc = v.ModifiedUtc
+                    });
+                return query.ToList();
+            }
+        }
+
+        // Venue Read by Capacity
+        public IEnumerable<VenueDetail> GetVenuesByCapacity(int capacity, char oper)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                if (oper == 'g')
+                {
+                    var query =
+                    ctx
+                        .Venues
+                        .Where(v => v.Capacity >= capacity)
+                        .Select(v => new VenueDetail
+                        {
+                            VenueId = v.VenueId,
+                            Name = v.Name,
+                            Address = v.Address,
+                            City = v.City,
+                            State = v.State.ToString(),
+                            ZipCode = v.ZipCode,
+                            Capacity = v.Capacity,
+                            AltName = v.AltName,
+                            OperatingStatus = v.IsOperating,
+                            CreatedUtc = v.CreatedUtc,
+                            ModifiedUtc = v.ModifiedUtc
+                        });
+                    return query.ToList();
+                }
+                else if (oper == 'l')
+                {
+                    var query =
+                   ctx
+                       .Venues
+                       .Where(v => v.Capacity <= capacity)
+                       .Select(v => new VenueDetail
+                       {
+                           VenueId = v.VenueId,
+                           Name = v.Name,
+                           Address = v.Address,
+                           City = v.City,
+                           State = v.State.ToString(),
+                           ZipCode = v.ZipCode,
+                           Capacity = v.Capacity,
+                           AltName = v.AltName,
+                           OperatingStatus = v.IsOperating,
+                           CreatedUtc = v.CreatedUtc,
+                           ModifiedUtc = v.ModifiedUtc
+                       });
+                    return query.ToList();
+                }
+                else if (oper == 'e')
+                {
+                    var query =
+                   ctx
+                       .Venues
+                       .Where(v => v.Capacity == capacity)
+                       .Select(v => new VenueDetail
+                       {
+                           VenueId = v.VenueId,
+                           Name = v.Name,
+                           Address = v.Address,
+                           City = v.City,
+                           State = v.State.ToString(),
+                           ZipCode = v.ZipCode,
+                           Capacity = v.Capacity,
+                           AltName = v.AltName,
+                           OperatingStatus = v.IsOperating,
+                           CreatedUtc = v.CreatedUtc,
+                           ModifiedUtc = v.ModifiedUtc
+                       });
+                    return query.ToList();
+                }
+                else return null;
+                
             }
         }
     }

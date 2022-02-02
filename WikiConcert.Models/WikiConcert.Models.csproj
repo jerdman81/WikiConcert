@@ -57,13 +57,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttendanceAdd.cs" />
+    <Compile Include="AttendanceListItem.cs" />
     <Compile Include="BandCreate.cs" />
+    <Compile Include="BandDetail.cs" />
     <Compile Include="BandListItem.cs" />
     <Compile Include="ConcertCreate.cs" />
+    <Compile Include="ConcertListItem.cs" />
     <Compile Include="ConcertDetail.cs" />
     <Compile Include="ConcertEdit.cs" />
     <Compile Include="BandUpdate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SetlistCreate.cs" />
+    <Compile Include="SetlistDetail.cs" />
+    <Compile Include="SetlistListItem.cs" />
+    <Compile Include="SetlistUpdate.cs" />
+    <Compile Include="SongCreate.cs" />
+    <Compile Include="SongDetail.cs" />
+    <Compile Include="SongLyricItem.cs" />
+    <Compile Include="SongListItem.cs" />
+    <Compile Include="SongUpdate.cs" />
     <Compile Include="VenueCreate.cs" />
     <Compile Include="VenueDetail.cs" />
     <Compile Include="VenueEdit.cs" />
@@ -71,6 +84,12 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WikiConcert.Data\WikiConcert.Data.csproj">
+      <Project>{01faffd4-3d44-48cc-ae2b-01c3524f353a}</Project>
+      <Name>WikiConcert.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

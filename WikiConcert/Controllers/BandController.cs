@@ -14,7 +14,15 @@ namespace WikiConcert.Controllers
     {
         private BandService CreateBandService()
         {
-            var userId = Guid.Parse(User.Identity.GetUserId());
+            Guid userId;
+            try
+            {
+                userId = Guid.Parse(User.Identity.GetUserId());
+            }
+            catch (System.ArgumentNullException anex)
+            {
+                return null;
+            }
             var bandService = new BandService(userId);
             return bandService;
         }
@@ -22,6 +30,8 @@ namespace WikiConcert.Controllers
         public IHttpActionResult Get()
         {
             BandService bandService = CreateBandService();
+            if (bandService == null)
+                return Unauthorized();
             var bands = bandService.GetAllBands();
             return Ok(bands);
         }
@@ -29,14 +39,26 @@ namespace WikiConcert.Controllers
         public IHttpActionResult Get(int id)
         {
             BandService bandService = CreateBandService();
-            var bands = bandService.GetBandById(id);
-            return Ok(bands);
+            if (bandService == null)
+                return Unauthorized();
+            BandDetail band;
+            try
+            {
+                band = bandService.GetBandById(id);
+            }
+            catch (InvalidOperationException)
+            {
+                return BadRequest("Target band id not found.");
+            }
+            return Ok(band);
         }
 
         [HttpGet, ActionName("Name")]
         public IHttpActionResult Get(string name)
         {
             BandService bandService = CreateBandService();
+            if (bandService == null)
+                return Unauthorized();
             var bands = bandService.GetBandByName(name);
             return Ok(bands);
         }
@@ -44,23 +66,31 @@ namespace WikiConcert.Controllers
         public IHttpActionResult GetByGenre(string genre)
         {
             BandService bandService = CreateBandService();
+            if (bandService == null)
+                return Unauthorized();
             var bands = bandService.GetBandByGenre(genre);
             return Ok(bands);
         }
         [HttpGet, ActionName("IsActive")]
-        public IHttpActionResult GetByActive()
+        public IHttpActionResult GetByActive(bool isActive)
         {
             BandService bandService = CreateBandService();
-            var bands = bandService.GetBandByActive(true);
+            if (bandService == null)
+                return Unauthorized();
+            var bands = bandService.GetBandByActive(isActive);
             return Ok(bands);
         }
+        /* Redundant
         [HttpGet, ActionName("IsNotActive")]
         public IHttpActionResult GetByNotActive()
         {
             BandService bandService = CreateBandService();
+            if (bandService == null)
+                return Unauthorized();
             var bands = bandService.GetBandByActive(false);
             return Ok(bands);
         }
+        */
         [HttpPost]
         public IHttpActionResult CreateBand(BandCreate band)
         {
@@ -70,8 +100,10 @@ namespace WikiConcert.Controllers
                 return BadRequest(ModelState);
 
             var bandService = CreateBandService();
+            if (bandService == null)
+                return Unauthorized();
 
-            if(bandService.CreateBand(band))
+            if (bandService.CreateBand(band))
                 return Ok($"Successfully added {band.Name}");
 
             return InternalServerError();
@@ -85,9 +117,17 @@ namespace WikiConcert.Controllers
                 return BadRequest(ModelState);
 
             var bandService = CreateBandService();
-
-            if (bandService.UpdateBand(band))
-                return Ok($"Successfully updated {band.Name}");
+            if (bandService == null)
+                return Unauthorized();
+            try
+            {
+                if (bandService.UpdateBand(band))
+                    return Ok($"Successfully updated {band.Name}");
+            }
+            catch (InvalidOperationException)
+            {
+                return BadRequest("Target band not found.");
+            }
 
             return InternalServerError();
         }
@@ -95,9 +135,18 @@ namespace WikiConcert.Controllers
         public IHttpActionResult BandDelete(int id)
         {
             var bandService = CreateBandService();
+            if (bandService == null)
+                return Unauthorized();
 
-            if (bandService.DeleteBand(id))
-                return Ok("Successfully deleted band.");
+            try
+            {
+                if (bandService.DeleteBand(id))
+                    return Ok("Successfully deleted band.");
+            }
+            catch (InvalidOperationException)
+            {
+                return BadRequest("Target band not found.");
+            }
 
             return InternalServerError();
         }

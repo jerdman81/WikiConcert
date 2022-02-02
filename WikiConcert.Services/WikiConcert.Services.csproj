@@ -57,9 +57,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttendanceService.cs" />
     <Compile Include="BandService.cs" />
     <Compile Include="ConcertService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SetlistService.cs" />
+    <Compile Include="SongService.cs" />
     <Compile Include="VenueService.cs" />
   </ItemGroup>
   <ItemGroup>
