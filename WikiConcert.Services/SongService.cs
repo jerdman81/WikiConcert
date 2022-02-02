@@ -118,18 +118,25 @@ namespace WikiConcert.Services
             using (var ctx = new ApplicationDbContext())
             {
                 List<Song> capturesongs = new List<Song>();
+                List<Song> templist = new List<Song>();
                 var songs = ctx.Songs.ToList();
-                for (int i = 0; i < lyriclist.Length; i++)
+                foreach (var item in songs)
                 {
-                    foreach (var item in songs)
+                    for (int i = 0; i < lyriclist.Length; i++)
                     {
-                        if (item.Lyrics.ToLower().Contains(lyriclist[i]) && !capturesongs.Where(s=>s.SongId==item.SongId).Contains(item))
+                        if (item.Lyrics.ToLower().Contains(lyriclist[i]))
+                        {
+                            templist.Add(item);
+                        }
+                        if (templist.Count == lyriclist.Length)
                         {
                             capturesongs.Add(item);
+                            templist.Clear();
                         }
                     }
-
+                    templist.Clear();
                 }
+
                 return capturesongs;
             }
         }
