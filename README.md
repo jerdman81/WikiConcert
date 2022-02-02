@@ -9,6 +9,7 @@ The app consists of a database with tables for:
 - Songs
 - Concerts
 - Setlists
+- Attendance
 
 
 In Version 1.0 (MVP), users will have the ability to:
@@ -19,6 +20,8 @@ In Version 1.0 (MVP), users will have the ability to:
 - Update concerts, bands, venues, etc.
 - Remove concerts, bands, venues, etc.
 - List concerts in chronological order
+
+Endpoints have been implemented using RESTful API implementation.
 
 For Version 2.0, planned features include:
 - Implementing a User Interface
