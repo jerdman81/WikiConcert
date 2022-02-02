@@ -109,24 +109,30 @@ namespace WikiConcert.Services
             }
         }
 
-        public IEnumerable<SongLyricItem> GetSongByLyrics(string lyric)
+        public IEnumerable<Song> GetSongByLyrics(string lyric)
         {
+            char[] delimiterChars = new char[] { ' ', ',','.', ':', ';', '\n', '\r', '\t' };
+            string lyricclean = lyric.ToLower();
+            string[] lyriclist = lyricclean.Split(delimiterChars, StringSplitOptions.RemoveEmptyEntries);
+
             using (var ctx = new ApplicationDbContext())
             {
-                var query = ctx.Songs.Where(s => s.Lyrics.ToLower().Contains(lyric.ToLower()))
-                    .Select(s => new SongLyricItem
+                List<Song> capturesongs = new List<Song>();
+                var songs = ctx.Songs.ToList();
+                for (int i = 0; i < lyriclist.Length; i++)
                 {
-                    SongId = s.SongId,
-                    Name = s.Name,
-                    Artist = s.Artist,
-                    ReleaseDate = s.ReleaseDate,
-                    Lyrics = s.Lyrics
-                });
+                    foreach (var item in songs)
+                    {
+                        if (item.Lyrics.ToLower().Contains(lyriclist[i]) && !capturesongs.Where(s=>s.SongId==item.SongId).Contains(item))
+                        {
+                            capturesongs.Add(item);
+                        }
+                    }
 
-                return query.ToList();
+                }
+                return capturesongs;
             }
         }
-
         public bool UpdateSong(SongUpdate model)
         {
             using (var ctx = new ApplicationDbContext())
